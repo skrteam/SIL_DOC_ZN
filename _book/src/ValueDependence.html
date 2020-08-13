@@ -1,0 +1,829 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>0x9 Value Dependence · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="Copy-on-Write.html" />
+    
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="abstract.html">
+            
+                <a href="abstract.html">
+            
+                    
+                    0x0 Abstract
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="SILCompiler.html">
+            
+                <a href="SILCompiler.html">
+            
+                    
+                    0x1 SIL编译器
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" >
+            
+                <span>
+            
+                    
+                    [0x11 SILGen]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" >
+            
+                <span>
+            
+                    
+                    [0x12 Guaranteed Optimization and Diagnostic Passes]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="Syntax.html">
+            
+                <a href="Syntax.html">
+            
+                    
+                    0x2 Syntax
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" >
+            
+                <span>
+            
+                    
+                    [0x21 SIL Stage]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" >
+            
+                <span>
+            
+                    
+                    [0x22 SIL Types]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" >
+            
+                <span>
+            
+                    
+                    [0x23 Values and Operands]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" >
+            
+                <span>
+            
+                    
+                    [0x24 Functions]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" >
+            
+                <span>
+            
+                    
+                    [0x25 Basic Blocks]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" >
+            
+                <span>
+            
+                    
+                    [0x26 Debug Information]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" >
+            
+                <span>
+            
+                    
+                    [0x27 Declaration References]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.8" >
+            
+                <span>
+            
+                    
+                    [0x28 Linkage]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.9" >
+            
+                <span>
+            
+                    
+                    [0x29 VTables]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.10" >
+            
+                <span>
+            
+                    
+                    [0x2A Witness Tables]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.11" >
+            
+                <span>
+            
+                    
+                    [0x2B Default Witness Tables]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.12" >
+            
+                <span>
+            
+                    
+                    [0x2C Global Variables]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.13" >
+            
+                <span>
+            
+                    
+                    [0x2D Differentiability Witnesses]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="Dataflow.html">
+            
+                <a href="Dataflow.html">
+            
+                    
+                    0x3 Dataflow Errors
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" >
+            
+                <span>
+            
+                    
+                    [0x31 Definitive Initialization]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" >
+            
+                <span>
+            
+                    
+                    [0x32 Unreachable Control Flow]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" >
+            
+                <span>
+            
+                    
+                    [0x33 Values and Operands]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" >
+            
+                <span>
+            
+                    
+                    [0x34 Functions]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="OwnershipSSA.html">
+            
+                <a href="OwnershipSSA.html">
+            
+                    
+                    0x4 Ownership SSA
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" >
+            
+                <span>
+            
+                    
+                    [0x41 Value Ownership Kind]
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1" >
+            
+                <span>
+            
+                    
+                    [0x42 Owned]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.2" >
+            
+                <span>
+            
+                    
+                    [0x43 Guaranteed]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.3" >
+            
+                <span>
+            
+                    
+                    [0x44 None]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.4" >
+            
+                <span>
+            
+                    
+                    [0x45 Unowned]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="RuntimeFailure.html">
+            
+                <a href="RuntimeFailure.html">
+            
+                    
+                    0x5 Runtime Failure
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="UndefinedBehavior.html">
+            
+                <a href="UndefinedBehavior.html">
+            
+                    
+                    0x6 Undefined Behavior
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="SILStage.html">
+            
+                <a href="SILStage.html">
+            
+                    
+                    0x7 Calling Convention
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" >
+            
+                <span>
+            
+                    
+                    [0x71 Swift Calling Convention @convention(swift)]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" >
+            
+                <span>
+            
+                    
+                    [0x72 Swift Method Calling Convention @convention(method)]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.3" >
+            
+                <span>
+            
+                    
+                    [0x73 Witness Method Calling Convention @convention(witness_method)]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.4" >
+            
+                <span>
+            
+                    
+                    [0x74 C Calling Convention @convention(c)]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.5" >
+            
+                <span>
+            
+                    
+                    [0x75 Objective-C Calling Convention @convention(objc_method)]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="TBAA.html">
+            
+                <a href="TBAA.html">
+            
+                    
+                    0x8 Type Based Alias Analysis
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.10.1" >
+            
+                <span>
+            
+                    
+                    [0x81 Class TBAA]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.2" >
+            
+                <span>
+            
+                    
+                    [0x82 Typed Access TBAA]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.11" data-path="ValueDependence.html">
+            
+                <a href="ValueDependence.html">
+            
+                    
+                    0x9 Value Dependence
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="Copy-on-Write.html">
+            
+                <a href="Copy-on-Write.html">
+            
+                    
+                    0xA Copy-on-Write Representation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="Instructions/">
+            
+                <a href="Instructions/">
+            
+                    
+                    0xB Instruction Set
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >0x9 Value Dependence</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="0x9-value-dependence">0x9 Value Dependence</h1>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                
+                <a href="Copy-on-Write.html" class="navigation navigation-next navigation-unique" aria-label="Next page: 0xA Copy-on-Write Representation">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"0x9 Value Dependence","level":"1.11","depth":1,"next":{"title":"0xA Copy-on-Write Representation","level":"1.12","depth":1,"path":"src/Copy-on-Write.md","ref":"src/Copy-on-Write.md","articles":[]},"previous":{"title":"[0x82 Typed Access TBAA]","level":"1.10.2","depth":2,"ref":"","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/ValueDependence.md","mtime":"2020-08-13T12:47:56.042Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-13T12:48:53.378Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
