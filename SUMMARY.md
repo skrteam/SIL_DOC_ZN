@@ -1,10 +1,11 @@
 # Summary
 
 * [Introduction](README.md)
-* [0x0 Abstract](src/abstract.md)
-* [0x1 SIL编译器](src/SILCompiler.md)
-    * [0x11 SILGen]
-    * [0x12 Guaranteed Optimization and Diagnostic Passes]
+* [0x0 摘要](src/abstract.md)
+* [0x1 SIL和编译流程](src/SILCompiler.md)
+    * [SILGen](src/SILCompiler.md#SILGen)
+    * [Guaranteed Optimization and Diagnostic Passes](src/SILCompiler.md)
+    * [General Optimization Passes](src/SILCompiler.md)
 * [0x2 Syntax](src/Syntax.md)
     * [0x21 SIL Stage]
     * [0x22 SIL Types]
