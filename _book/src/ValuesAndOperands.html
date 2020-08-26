@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>0x6 Undefined Behavior · GitBook</title>
+        <title>Values and Operands · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="CallConvention.html" />
+    <link rel="next" href="Functions.html" />
     
     
-    <link rel="prev" href="RuntimeFailure.html" />
+    <link rel="prev" href="types/SILTypes.html" />
     
 
     </head>
@@ -213,7 +213,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4.3" data-path="ValuesAndOperands.html">
+        <li class="chapter active" data-level="1.4.3" data-path="ValuesAndOperands.html">
             
                 <a href="ValuesAndOperands.html">
             
@@ -432,7 +432,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.8" data-path="UndefinedBehavior.html">
+        <li class="chapter " data-level="1.8" data-path="UndefinedBehavior.html">
             
                 <a href="UndefinedBehavior.html">
             
@@ -643,7 +643,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >0x6 Undefined Behavior</a>
+        <a href=".." >Values and Operands</a>
     </h1>
 </div>
 
@@ -658,7 +658,15 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="0x6-undefined-behavior">0x6 Undefined Behavior</h1>
+                                <h1 id="values-and-operands">Values and Operands</h1>
+<pre><code>sil-identifier ::= [A-Za-z_0-9]+
+sil-value-name ::= &apos;%&apos; sil-identifier
+sil-value ::= sil-value-name
+sil-value ::= &apos;undef&apos;
+sil-operand ::= sil-value &apos;:&apos; sil-type
+</code></pre><p>SIL&#x4E2D;&#x4EE5;$&#x4F5C;&#x4E3A;&#x503C;&#x7684;&#x524D;&#x7F00;&#x3002;&#x503C;&#x7684;ID&#x547D;&#x540D;&#x4F7F;&#x7528;&#x5B57;&#x6BCD;&#x548C;&#x6570;&#x5B57;&#x3002;
+&#x4E5F;&#x53EF;&#x80FD;&#x662F;&apos;undef&apos;,&#x5982;&#x5B57;&#x9762;&#x4E49;&#x3002;</p>
+<p>&#x548C;LLVM IR&#x4E0D;&#x540C;&#xFF0C;&#x628A;value&#x4F5C;&#x4E3A;&#x64CD;&#x4F5C;&#x6570;&#x7684;&#x6307;&#x4EE4;&#x53EA;&#x80FD;&#x63A5;&#x53D7;value&#x4F5C;&#x4E3A;&#x64CD;&#x4F5C;&#x6570;&#x3002;&#x5BF9;&#x4E8E;&#x5B57;&#x9762;&#x91CF;&#x5E38;&#x91CF;&#xFF0C;&#x51FD;&#x6570;&#xFF0C;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#x548C;&#x5176;&#x4ED6;&#x5B9E;&#x4F53;&#x8FDB;&#x884C;&#x64CD;&#x4F5C;&#x5219;&#x9700;&#x8981;&#x4E13;&#x95E8;&#x7684;&#x6307;&#x4EE4;&#x8FDB;&#x884C;&#x64CD;&#x7EC4;&#xFF0C;&#x5982;integer_literal, function_ref, global_addr, etc.</p>
 
                                 
                                 </section>
@@ -686,12 +694,12 @@
 
             
                 
-                <a href="RuntimeFailure.html" class="navigation navigation-prev " aria-label="Previous page: 0x5 Runtime Failure">
+                <a href="types/SILTypes.html" class="navigation navigation-prev " aria-label="Previous page: SIL Types">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="CallConvention.html" class="navigation navigation-next " aria-label="Next page: 0x7 Calling Convention">
+                <a href="Functions.html" class="navigation navigation-next " aria-label="Next page: Functions">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -702,7 +710,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"0x6 Undefined Behavior","level":"1.8","depth":1,"next":{"title":"0x7 Calling Convention","level":"1.9","depth":1,"path":"src/CallConvention.md","ref":"src/CallConvention.md","articles":[{"title":"[0x71 Swift Calling Convention @convention(swift)]","level":"1.9.1","depth":2,"ref":"","articles":[]},{"title":"[0x72 Swift Method Calling Convention @convention(method)]","level":"1.9.2","depth":2,"ref":"","articles":[]},{"title":"[0x73 Witness Method Calling Convention @convention(witness_method)]","level":"1.9.3","depth":2,"ref":"","articles":[]},{"title":"[0x74 C Calling Convention @convention(c)]","level":"1.9.4","depth":2,"ref":"","articles":[]},{"title":"[0x75 Objective-C Calling Convention @convention(objc_method)]","level":"1.9.5","depth":2,"ref":"","articles":[]}]},"previous":{"title":"0x5 Runtime Failure","level":"1.7","depth":1,"path":"src/RuntimeFailure.md","ref":"src/RuntimeFailure.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/UndefinedBehavior.md","mtime":"2020-08-13T12:47:56.040Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-26T13:22:49.897Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Values and Operands","level":"1.4.3","depth":2,"next":{"title":"Functions","level":"1.4.4","depth":2,"path":"src/Functions.md","ref":"src/Functions.md","articles":[]},"previous":{"title":"SIL Types","level":"1.4.2","depth":2,"path":"src/types/SILTypes.md","ref":"src/types/SILTypes.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/ValuesAndOperands.md","mtime":"2020-08-24T11:52:05.214Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-26T13:22:49.897Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

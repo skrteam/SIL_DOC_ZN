@@ -1,0 +1,849 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>SIL Types · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../ValuesAndOperands.html" />
+    
+    
+    <link rel="prev" href="../SILStage.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../abstract.html">
+            
+                <a href="../abstract.html">
+            
+                    
+                    0x0 摘要
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../SILCompiler.html">
+            
+                <a href="../SILCompiler.html">
+            
+                    
+                    0x1 SIL和编译流程
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../SILCompiler.html">
+            
+                <a href="../SILCompiler.html#SILGen">
+            
+                    
+                    SILGen
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../SILCompiler.html">
+            
+                <a href="../SILCompiler.html">
+            
+                    
+                    Guaranteed Optimization and Diagnostic Passes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../SILCompiler.html">
+            
+                <a href="../SILCompiler.html">
+            
+                    
+                    General Optimization Passes
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../Syntax.html">
+            
+                <a href="../Syntax.html">
+            
+                    
+                    0x2 Syntax
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../SILStage.html">
+            
+                <a href="../SILStage.html">
+            
+                    
+                    SIL Stage
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4.2" data-path="SILTypes.html">
+            
+                <a href="SILTypes.html">
+            
+                    
+                    SIL Types
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../ValuesAndOperands.html">
+            
+                <a href="../ValuesAndOperands.html">
+            
+                    
+                    Values and Operands
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../Functions.html">
+            
+                <a href="../Functions.html">
+            
+                    
+                    Functions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../BasicBlocks.html">
+            
+                <a href="../BasicBlocks.html">
+            
+                    
+                    Basic Blocks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" >
+            
+                <span>
+            
+                    
+                    [Debug Information]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" >
+            
+                <span>
+            
+                    
+                    [Declaration References]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.8" >
+            
+                <span>
+            
+                    
+                    [Linkage]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.9" >
+            
+                <span>
+            
+                    
+                    [VTables]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.10" >
+            
+                <span>
+            
+                    
+                    [Witness Tables]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.11" >
+            
+                <span>
+            
+                    
+                    [Default Witness Tables]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.12" >
+            
+                <span>
+            
+                    
+                    [Global Variables]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.13" >
+            
+                <span>
+            
+                    
+                    [Differentiability Witnesses]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../Dataflow.html">
+            
+                <a href="../Dataflow.html">
+            
+                    
+                    0x3 Dataflow Errors
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" >
+            
+                <span>
+            
+                    
+                    [0x31 Definitive Initialization]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" >
+            
+                <span>
+            
+                    
+                    [0x32 Unreachable Control Flow]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../OwnershipSSA.html">
+            
+                <a href="../OwnershipSSA.html">
+            
+                    
+                    0x4 Ownership SSA
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../RuntimeFailure.html">
+            
+                <a href="../RuntimeFailure.html">
+            
+                    
+                    0x5 Runtime Failure
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../UndefinedBehavior.html">
+            
+                <a href="../UndefinedBehavior.html">
+            
+                    
+                    0x6 Undefined Behavior
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../CallConvention.html">
+            
+                <a href="../CallConvention.html">
+            
+                    
+                    0x7 Calling Convention
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" >
+            
+                <span>
+            
+                    
+                    [0x71 Swift Calling Convention @convention(swift)]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" >
+            
+                <span>
+            
+                    
+                    [0x72 Swift Method Calling Convention @convention(method)]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.3" >
+            
+                <span>
+            
+                    
+                    [0x73 Witness Method Calling Convention @convention(witness_method)]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.4" >
+            
+                <span>
+            
+                    
+                    [0x74 C Calling Convention @convention(c)]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.5" >
+            
+                <span>
+            
+                    
+                    [0x75 Objective-C Calling Convention @convention(objc_method)]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../TBAA.html">
+            
+                <a href="../TBAA.html">
+            
+                    
+                    0x8 Type Based Alias Analysis
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.10.1" >
+            
+                <span>
+            
+                    
+                    [0x81 Class TBAA]
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.2" >
+            
+                <span>
+            
+                    
+                    [0x82 Typed Access TBAA]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="../ValueDependence.html">
+            
+                <a href="../ValueDependence.html">
+            
+                    
+                    0x9 Value Dependence
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="../Copy-on-Write.html">
+            
+                <a href="../Copy-on-Write.html">
+            
+                    
+                    0xA Copy-on-Write Representation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="../Instructions/">
+            
+                <a href="../Instructions/">
+            
+                    
+                    0xB Instruction Set
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >SIL Types</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="sil-types">SIL Types</h1>
+<pre><code>sil-type ::= &apos;$&apos; &apos;*&apos;? generic-parameter-list? type
+</code></pre><p>SIL &#x7C7B;&#x578B;&#x4EE5;$&#x7B26;&#x53F7;&#x5F00;&#x5934;&#xFF0C;SIL&#x7684;&#x7C7B;&#x578B;&#x7CFB;&#x7EDF;&#x548C;Swift&#x7684;&#x662F;&#x9AD8;&#x5EA6;&#x76F8;&#x5173;&#x7684;&#xFF0C;&#x6240;&#x4EE5;$&#x540E;&#x9762;&#x7684;&#x7C7B;&#x578B;&#x540D;&#x79F0;&#x5927;&#x4F53;&#x4E0A;&#x662F;&#x6765;&#x81EA;&#x4E8E;Swift&#x7684;&#x7C7B;&#x578B;&#x8BED;&#x6CD5;&#x3002;</p>
+<h2 id="type-lowering">Type Lowering</h2>
+<p>&#x7C7B;&#x578B;&#x964D;&#x7EA7;&#x662F;&#x6307;&#x628A;FormalType&#x964D;&#x7EA7;&#x4E3A;SILTypes&#x3002;SIL Types&#x4E5F;&#x88AB;&#x6210;&#x4E3A;Lowered Types&#x3002;
+FormalType&#x662F;&#x670D;&#x52A1;&#x4E8E;Swift AST&#x4E2D;&#x7684;&#x7C7B;&#x578B;&#x7CFB;&#x7EDF;&#x3002;&#x5B83;&#x7684;&#x8BBE;&#x8BA1;&#x521D;&#x8877;&#x662F;&#x62BD;&#x8C61;&#x548C;&#x7EDF;&#x4E00;&#x53E5;&#x6CD5;&#x7684;&#x8868;&#x793A;&#xFF0C;&#x6BD4;&#x5982;&#x5BF9;&#x6240;&#x6709;&#x6743;&#x8F6C;&#x79FB;&#x89C4;&#x8303;&#x548C;&#x4F20;&#x9012;&#x53C2;&#x6570;&#x7684;&#x89C4;&#x8303;&#x7528;&#x7EDF;&#x4E00;&#x7684;&#x89C4;&#x5219;&#x8FDB;&#x884C;&#x8868;&#x793A;&#x3002;
+&#x53E6;&#x4E00;&#x65B9;&#x9762;&#xFF0C;SIL&#x7684;&#x8BBE;&#x8BA1;&#x662F;&#x4E3A;&#x4E86;&#x66F4;&#x597D;&#x5730;&#x63CF;&#x8FF0;&#x5B9E;&#x73B0;&#x7EC6;&#x8282;&#xFF0C;&#x4ECE;&#x800C;&#x8FD9;&#x4E5F;&#x8981;&#x6C42;SIL&#x6709;&#x4E00;&#x5957;&#x4E0D;&#x540C;&#x7684;&#x7C7B;&#x578B;&#x7CFB;&#x7EDF;&#x3002;</p>
+<p>// &#xFF1F;&#xFF1F;&#xFF1F;
+&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x6709;&#x4E9B;&#x60C5;&#x51B5;&#x662F;&#x4E0D;&#x9700;&#x8981;&#x505A;&#x7C7B;&#x578B;&#x964D;&#x7EA7;&#x7684;&#x3002;&#x6BD4;&#x5982;&#x573A;&#x666F;&#xFF1A;</p>
+<ul>
+<li>&#x5C5E;&#x4E8E;thin&#x7C7B;&#x578B;&#x7684;</li>
+<li>&#x53EF;&#x80FD;&#x6709;&#x975E;Swift&#x8C03;&#x7528;&#x7684;</li>
+<li>&#x53EF;&#x80FD;&#x5728;&#x63A5;&#x53E3;&#x4E0A;&#x4F7F;&#x7528;bridged&#x7C7B;&#x578B;&#x7684;</li>
+<li>&#x53EF;&#x80FD;&#x5176;Ownership&#x884C;&#x4E3A;&#x4E0E;Swift&#x9ED8;&#x8BA4;&#x7684;&#x89C4;&#x8303;&#x4F1A;&#x6709;&#x4E0D;&#x540C;&#x7684;</li>
+</ul>
+<h2 id="abstraction-difference">Abstraction Difference</h2>
+<p>&#x6CDB;&#x578B;&#x51FD;&#x6570;&#x5177;&#x6709;&#x6CDB;&#x578B;&#x53C2;&#x6570;&#xFF0C;&#x8FD9;&#x4E2A;&#x6CDB;&#x578B;&#x53C2;&#x6570;&#x662F;&#x95F4;&#x63A5;&#x5730;&#x6CE8;&#x5165;&#x7684;&#x3002;
+&#x4F8B;&#x5982;&#xFF0C;&#x4E3A;&#x6CDB;&#x578B;&#x53C2;&#x6570;&#x7684;&#x7C7B;&#x578B;&#x5F00;&#x8F9F;&#x8DB3;&#x591F;&#x7684;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#xFF0C;&#x5E76;&#x628A;&#x8BE5;&#x5185;&#x5B58;&#x7684;&#x6307;&#x9488;&#x4F20;&#x8FDB;&#x53BB;&#x3002;</p>
+<p>&#x8003;&#x8651;&#x5982;&#x4E0B;&#x7684;&#x6CDB;&#x578B;&#x51FD;&#x6570;&#xFF1A;</p>
+<pre><code>func generateArray&lt;T&gt;(n : Int, generator : () -&gt; T) -&gt; [T]
+</code></pre><p>&#x51FD;&#x6570;&#x53C2;&#x6570;generator&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x7C7B;&#x578B;T&#x7684;&#x7ED3;&#x679C;&#xFF0C;&#x8FD9;&#x4E2A;&#x7ED3;&#x679C;&#x56E0;&#x4E3A;&#x7C7B;&#x578B;&#x662F;&#x672A;&#x77E5;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x5FC5;&#x987B;&#x901A;&#x8FC7;&#x6307;&#x9488;&#x95F4;&#x63A5;&#x5730;&#x4F20;&#x9012;&#x3002;</p>
+<p>&#x867D;&#x7136;&#x6709;&#x53EF;&#x4EE5;&#x8868;&#x793A;&#x4EFB;&#x610F;&#x7C7B;&#x578B;&#x7684;&#x503C;&#x7684;&#x5B9E;&#x73B0;&#x65B9;&#x6848;&#xFF0C;&#x4F46;&#x53EF;&#x80FD;&#x5E76;&#x4E0D;&#x662F;&#x6211;&#x4EEC;&#x60F3;&#x8981;&#x7684;&#xFF1A;</p>
+<ul>
+<li>&#x6211;&#x4EEC;&#x4E0D;&#x5E0C;&#x671B;&#x5BF9;&#x4E8E;&#x6BCF;&#x4E2A;&#x7C7B;&#x578B;T&#x90FD;&#x751F;&#x6210;&#x4E00;&#x4EFD;generateArray&#x7684;&#x5177;&#x4F53;&#x5B9E;&#x73B0;&#xFF08;&#x7C7B;&#x4F3C;&#x9759;&#x6001;&#x591A;&#x6001;&#xFF09;</li>
+<li>&#x6211;&#x4EEC;&#x4E0D;&#x60F3;&#x5B9A;&#x4E49;&#x4E00;&#x5957;&#x901A;&#x7528;&#x7684;&#x7C7B;&#x578B;&#x8868;&#x793A;&#x7CFB;&#x7EDF;&#x53BB;&#x8868;&#x793A;&#x6BCF;&#x4E00;&#x4E2A;&#x7C7B;&#x578B;</li>
+<li>&#x6211;&#x4EEC;&#x4E0D;&#x5E0C;&#x671B;&#x56E0;&#x4E3A;T&#x7684;&#x4E0D;&#x540C;&#xFF0C;&#x800C;&#x5BFC;&#x81F4;&#x6211;&#x4EEC;&#x5FC5;&#x987B;&#x52A8;&#x6001;&#x5730;&#x6784;&#x9020;&#x4E0D;&#x540C;&#x7684;&#x65B9;&#x5F0F;&#x53BB;&#x8C03;&#x7528;&#x51FD;&#x6570;</li>
+</ul>
+<p>&#x4F46;&#x662F;&#xFF0C;&#x6211;&#x4EEC;&#x540C;&#x6837;&#x4E0D;&#x5E0C;&#x671B;&#x6CDB;&#x578B;&#x7CFB;&#x7EDF;&#x7684;&#x5B9E;&#x73B0;&#x6700;&#x7EC8;&#x5BFC;&#x81F4;&#x7075;&#x6D3B;&#x7684;&#x4EE3;&#x7801;&#x6700;&#x540E;&#x53D8;&#x6210;&#x4E86;&#x4F4E;&#x6548;&#x7684;&#x975E;&#x6CDB;&#x578B;&#x4EE3;&#x7801;&#x3002;
+&#x4E3E;&#x4E2A;&#x4F8B;&#x5B50;&#xFF0C;&#x5BF9;&#x4E8E;&#x51FD;&#x6570;&#x7C7B;&#x578B; &#xFF08;&#xFF09;-&gt;Int &#x6211;&#x4EEC;&#x5E0C;&#x671B;&#x80FD;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;&#x7C7B;&#x578B;Int&#xFF1B;&#x53E6;&#x5916;&#xFF0C;&#xFF08;&#xFF09;-&gt;Int&#x662F;&#x6CDB;&#x578B;&#x8868;&#x793A; ()-&gt;T &#x7684;&#x4E00;&#x4E2A;&#x5408;&#x6CD5;&#x7684;&#x7C7B;&#x578B;&#x66FF;&#x6362;&#x8868;&#x793A;&#xFF0C;generateArray &lt; Int &gt;&#x7684;&#x8C03;&#x7528;&#x8005;&#x5E94;&#x8BE5;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4F20;&#x5165;&#x4EFB;&#x610F;&#x7684; &#xFF08;&#xFF09;-&gt;Int&#x7C7B;&#x578B;&#x7684;&#x53C2;&#x6570;&#x4F5C;&#x4E3A;generator&#x3002;</p>
+<p>&#x56E0;&#x6B64;&#xFF0C;formal type&#x5728;&#x6CDB;&#x578B;&#x4E0A;&#x4E0B;&#x6587;&#x7684;&#x62BD;&#x8C61;&#x8868;&#x793A;&#x548C;&#x5728;&#x7C7B;&#x578B;&#x66FF;&#x6362;&#x4E4B;&#x540E;&#x7684;&#x8868;&#x793A;&#x4F1A;&#x5B58;&#x5728;&#x5DEE;&#x5F02;&#x3002;&#x6211;&#x4EEC;&#x79F0;&#x4E4B;&#x4E3A; <em>&#x62BD;&#x8C61;&#x5DEE;&#x5F02;</em> &#x3002;</p>
+<p>SIL&#x7C7B;&#x578B;&#x7CFB;&#x7EDF;&#x7684;&#x8BBE;&#x8BA1;&#x662F;&#x5E0C;&#x671B;&#x901A;&#x8FC7;&#x4E00;&#x5957;SILTypes&#x80FD;&#x591F;&#x7EDF;&#x4E00;&#x5730;&#x8868;&#x793A;&#x8FD9;&#x79CD;&#x62BD;&#x8C61;&#x5DEE;&#x5F02;&#x3002;&#x5BF9;&#x4E8E;&#x5D4C;&#x5957;&#x7684;&#x6BCF;&#x4E00;&#x5C42;&#x7684;&#x7C7B;&#x578B;&#x66FF;&#x6362;&#xFF0C;&#x90FD;&#x6709;&#x5408;&#x9002;&#x7684;&#x62BD;&#x8C61;&#x7684;SILtypes&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x8868;&#x793A;&#x3002;</p>
+<p>&#x4E3A;&#x8FBE;&#x5230;&#x8FD9;&#x4E2A;&#x76EE;&#x6807;&#xFF0C;&#x4E00;&#x4E2A;&#x6CDB;&#x578B;&#x5B9E;&#x4F53;&#x7684;formal type&#x505A;&#x964D;&#x7EA7;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5FC5;&#x987B;&#x7528;&#x4E00;&#x4E2A;&#x62BD;&#x8C61;&#x5316;pattern, &#x8FD9;&#x4E2A;pattern&#x7531;&#x5C1A;&#x672A;&#x8FDB;&#x884C;&#x7C7B;&#x578B;&#x66FF;&#x6362;&#x7684;formal types&#x6784;&#x6210;&#x3002;
+&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code>struct Generator&lt;T&gt; {
+  var fn : () -&gt; T
+}
+var intGen : Generator&lt;Int&gt;
+</code></pre><p>&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;intGen.fn&#x7684;&#x66FF;&#x6362;&#x7C7B;&#x578B;&#x7528;formal type&#x8868;&#x793A;&#x5C31;&#x662F; () -&gt; Int, &#x5982;&#x679C;&#x628A;&#x5B83;&#x8FDB;&#x884C;&#x7C7B;&#x578B;&#x964D;&#x7EA7;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x5F97;&#x5230; @callee_owned () -&gt; Int&#x3002; &#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x4F1A;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;Int&#x7C7B;&#x578B;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x3002;</p>
+<p>&#x4F46;&#x5982;&#x679C;&#x7528;&#x672A;&#x8FDB;&#x884C;&#x7C7B;&#x578B;&#x66FF;&#x6362;&#x7684;&#x6CDB;&#x578B;&#x62BD;&#x8C61;&#x8868;&#x793A;&#x6211;&#x4EEC;&#x4F1A;&#x5F97;&#x5230; () -&gt; T, &#x5BF9;&#x5B83;&#x8FDB;&#x884C;&#x964D;&#x7EA7;&#xFF0C;&#x5F97;&#x5230;@callee_owned () -&gt; @out Int&#x3002; &#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x7C7B;&#x578B;&#x53D8;&#x6210;&#x4E86;@out Int&#xFF0C;&#x4E0D;&#x662F;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;Int&#x4E86;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x5728;&#x7C7B;&#x578B;&#x964D;&#x7EA7;&#x7684;&#x65F6;&#x5019;&#x7528;&#x5230;&#x4E86; &#x672A;&#x8FDB;&#x884C;&#x7C7B;&#x578B;&#x66FF;&#x6362;&#x7684;&#x62BD;&#x8C61;pattern&#x8FDB;&#x884C;&#x8868;&#x793A;&#x7684;&#x8BDD;&#xFF0C;&#x90A3;&#x5C31;&#x9700;&#x8981;&#x9012;&#x5F52;&#x5730;&#x7528;&#x7C7B;&#x578B;&#x53D8;&#x91CF;&#x53BB;&#x66FF;&#x6362;pattern&#x4E2D;&#x672A;&#x66FF;&#x6362;&#x7C7B;&#x578B;&#x7684;&#x6CDB;&#x578B;&#x53D8;&#x91CF;&#x3002;</p>
+<p>&#x6BD4;&#x5982;, &#x5982;&#x679C;&#x53D8;&#x91CF;g&#x7684;&#x7C7B;&#x578B;&#x662F;Generator&lt;(Int, Int) -&gt; Float&gt;&#xFF0C;&#x90A3;&#x4E48;g.fn&#x5728;&#x7C7B;&#x578B;&#x5728;&#x964D;&#x7EA7;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5148;&#x7528;&#x62BD;&#x8C61;pattern&#x8868;&#x793A;&#x4E3A;&#xFF0C;&#xFF08;&#xFF09;-&gt; (Int, Int) -&gt; Float. 
+&#x6700;&#x7EC8;&#x964D;&#x7EA7;&#x4E3A;SIL&#x7C7B;&#x578B;&#xFF1A;</p>
+<pre><code>@callee_owned () -&gt; @owned @callee_owned (@in (Int, Int)) -&gt; @out Float.
+</code></pre><p>&#x518D;&#x4E3E;&#x4E2A;&#x4F8B;&#x5B50;&#xFF0C;&#x53D8;&#x91CF;h&#x7684;&#x7C7B;&#x578B;&#x662F;Generator&lt;(Int, inout Int) -&gt; Float&gt;&#x3002;h.fn&#x7684;&#x964D;&#x7EA7;&#x7C7B;&#x578B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>@callee_owned () -&gt; @owned @callee_owned (@in Int, @inout Int) -&gt; @out Float
+</code></pre><p>&#x901A;&#x8FC7;&#x591A;&#x5C42;&#x7684;&#x66FF;&#x6362;&#x548C;&#x5C55;&#x5F00;&#xFF0C;&#x5C31;&#x8FBE;&#x6210;&#x4E86;&#x7528;&#x4E00;&#x5957;SIL Types&#x6765;&#x8868;&#x793A;&#x5177;&#x6709;&#x62BD;&#x8C61;&#x5DEE;&#x5F02;&#xFF08;Abstraction Difference&#xFF09;&#x7684;&#x6CDB;&#x578B;&#x8868;&#x793A;&#xFF0C;&#x5E76;&#x8FDB;&#x884C;&#x7C7B;&#x578B;&#x66FF;&#x6362;&#x548C;&#x7C7B;&#x578B;&#x964D;&#x7EA7;&#x4E86;&#x3002;</p>
+<p>SILGen&#x8D1F;&#x8D23;&#x89E3;&#x6790;&#x548C;&#x751F;&#x6210;&#x62BD;&#x8C61;&#x6A21;&#x5F0F;&#xFF08;Abstraction Pattern&#xFF09;&#x3002;</p>
+<p>&#x76EE;&#x524D;&#xFF0C;&#x53EA;&#x6709;function&#x548C;tuple&#x7C7B;&#x578B;&#x5B58;&#x5728;&#x62BD;&#x8C61;&#x5DEE;&#x5F02;&#x7684;&#x95EE;&#x9898;&#x3002;</p>
+<pre><code>F.Y.I.
+Int &#x4E3A;trivial/loadable&#x7C7B;&#x522B;&#xFF0C;&#x53EF;&#x76F4;&#x63A5;&#x901A;&#x8FC7;&#x5BC4;&#x5B58;&#x5668;&#x4F20;&#x9012;
+&#x800C;&#x6CDB;&#x578B;T&#x7531;&#x4E8E;&#x7C7B;&#x578B;&#x672A;&#x77E5;&#xFF0C;&#x662F;address-only&#x7684;&#x7C7B;&#x522B;&#xFF0C;&#x53EA;&#x80FD;&#x901A;&#x8FC7;&#x6307;&#x9488;&#x4F20;&#x9012;
+&#x4EE5;&#x4E0A;&#x5DEE;&#x5F02;&#x5BFC;&#x81F4;&#x4E86;&#x8C03;&#x7528;&#x65B9;&#x5F0F;&#x548C;&#x8FD4;&#x56DE;&#x7684;&#x65B9;&#x5F0F;&#x4E0D;&#x540C;
+
+&#x8BE5;&#x95EE;&#x9898;&#x901A;&#x8FC7;reabstraction stub&#x89E3;&#x51B3;&#xFF0C;&#x89C1;&#x6587;&#x7AE0;XXX
+</code></pre><h2 id="legal-sil-types">Legal SIL Types</h2>
+<p>&#x4E00;&#x4E2A;&#x5408;&#x6CD5;&#x7684;SIL&#x7684;&#x503C;&#xFF1A;</p>
+<ul>
+<li>$T, &#x8868;&#x793A;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x7C7B;&#x578B;&#xFF0C;&#x5176;&#x4E2D;T&#x662F;&#x4E00;&#x4E2A;&#x5408;&#x6CD5;&#x7684;loabable type</li>
+<li>$*T, &#x8868;&#x793A;&#x4E00;&#x4E2A;&#x5730;&#x5740;&#x7C7B;&#x578B;&#xFF0C;&#x5176;&#x4E2D;T&#x662F;&#x4E00;&#x4E2A;&#x5408;&#x6CD5;&#x7684;SIL &#x7C7B;&#x578B;&#xFF08;loadable &#x6216;&#x8005; address-only&#x7C7B;&#x578B;&#xFF09;</li>
+</ul>
+<p>&#x4E00;&#x4E2A;&#x5408;&#x6CD5;&#x7684;SIL&#x7C7B;&#x578B;T&#xFF0C;&#x5305;&#x62EC;&#xFF1A;</p>
+<ul>
+<li>function&#xFF0C;&#x8981;&#x6C42;&#x6EE1;&#x8DB3;&#x4E0B;&#x5217;&#x7EA6;&#x675F;</li>
+<li>metatype&#xFF0C;&#x7528;&#x6765;&#x8868;&#x8FBE;&#x7C7B;&#x578B;&#x7684;&#x7279;&#x70B9;</li>
+<li>tuple&#xFF0C;&#x8981;&#x6C42;&#x5176;&#x5143;&#x7D20;&#x5408;&#x6CD5;</li>
+<li>Optional&lt; U &gt;, &#x8981;&#x6C42;U&#x5408;&#x6CD5;</li>
+<li>@box&#x7C7B;&#x578B;&#xFF0C;&#x5176;&#x5305;&#x88F9;&#x4E86;&#x4E00;&#x4E2A;&#x5408;&#x6CD5;&#x7684;SIL&#x7C7B;&#x578B;</li>
+<li>&#x9664;&#x4EE5;&#x4E0A;&#x6240;&#x5217;&#xFF0C;&#x5408;&#x6CD5;&#x7684;Swift&#x7C7B;&#x578B;&#xFF08;&#x975E;&#x5DE6;&#x503C;&#x7C7B;&#x578B;&#xFF09;</li>
+</ul>
+<p>&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x5728;&#x9012;&#x63A8;&#x66FF;&#x6362;&#x964D;&#x7EA7;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x672A;&#x88AB;&#x66FF;&#x6362;&#x964D;&#x7EA7;&#x7684;&#x90E8;&#x5206;&#xFF0C;&#x8FD8;&#x662F;formal types&#x3002;</p>
+<h2 id="address-types">Address Types</h2>
+<p>$*T&#x5C31;&#x662F;$T&#x7684;&#x6307;&#x9488;&#x3002;&#x53EF;&#x4EE5;&#x662F;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x7684;&#x5185;&#x90E8;&#x6307;&#x9488;&#x3002;&#x53EF;&#x4EE5;&#x8BFB;&#x5199;loadable types&#x7C7B;&#x578B;&#x7684;&#x5730;&#x5740;&#x3002;</p>
+<p>$T&#x7684;T&#x4E0D;&#x80FD;&#x662F;Address-Only&#x7C7B;&#x578B;&#x3002;Address-Only&#x7C7B;&#x578B;&#x7684;&#x5730;&#x5740;&#x53EA;&#x80FD;&#x901A;&#x8FC7;&#x76F8;&#x5173;&#x7684;&#x6307;&#x4EE4;&#x8FDB;&#x884C;&#x64CD;&#x7EC4;&#x54E6;&#xFF0C;&#x6BD4;&#x5982; copy_addr,destroy_addr&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4F5C;&#x4E3A;&#x51FD;&#x6570;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x4F46;&#x662F;&#x4E0D;&#x80FD;&#x4F5C;&#x4E3A;AdressType&#x7684;&#x503C;&#x3002;</p>
+<p>Address&#x7C7B;&#x578B;&#x4E0D;&#x662F;&#x6307;&#x5411;Class&#x5BF9;&#x8C61;&#x7684;&#x6307;&#x9488;&#x7C7B;&#x578B;&#xFF0C;&#x4E0D;&#x80FD;&#x8FDB;&#x884C;release&#x548C;retain&#xFF0C;&#x4E0D;&#x80FD;&#x8FDB;&#x884C;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x3002;</p>
+<p>Address&#x7C7B;&#x578B;&#x4E0D;&#x662F;&#x8BED;&#x8A00;&#x7684;&#x4E00;&#x7B49;(first-class)&#x6210;&#x5458;&#x3002;&#x9012;&#x5F52;&#x7684;&#x5199;&#x6CD5;&#x8868;&#x793A;&#x7C7B;&#x578B;&#x662F;&#x975E;&#x6CD5;&#x7684;&#xFF0C;&#x4F8B;&#x5982;$**T&#x662F;&#x975E;&#x6CD5;&#x7684;&#x3002;</p>
+<p>&#x867D;&#x7136;$**T&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x5408;&#x6CD5;&#x7684;&#x7C7B;&#x578B;&#x8868;&#x793A;&#xFF0C;&#x4F46;Address&#x7684;&#x5730;&#x5740;&#x662F;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#x7684;&#x3002;&#x53EF;&#x4EE5;&#x5BF9;&#x9F50;&#x8FDB;&#x884C;alloc,load,store&#x7B49;&#x64CD;&#x4F5C;&#x3002;</p>
+<p>Addresse &#x7C7B;&#x578B;&#x53EF;&#x4EE5;&#x4F5C;&#x4E3A;&#x51FD;&#x6570;&#x7684;indirect&#x5165;&#x53C2;&#xFF0C;&#x4F46;&#x4E0D;&#x53EF;&#x4F5C;&#x4E3A;&#x8FD4;&#x56DE;&#x503C;&#x7C7B;&#x578B;&#x3002;</p>
+<h2 id="box-types">Box Types</h2>
+<p>&#x88AB;&#x6355;&#x83B7;&#x7684;&#x672C;&#x5730;&#x53D8;&#x91CF;&#xFF0C;&#x4EE5;&#x53CA;&#x975E;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#x8BBF;&#x95EE;&#x7684;&#x503C;&#x7C7B;&#x578B;(indirect value types)&#x7684;payloads &#x5B58;&#x50A8;&#x5728;&#x5806;&#x5185;&#x5B58;&#x4E0A;&#x3002;</p>
+<p>@box T&#x5305;&#x88F9;&#x4E86;&#x4E00;&#x4E2A;T&#x7C7B;&#x578B;&#x7684;&#x53EF;&#x53D8;&#x503C;&#xFF0C;&#x8BE5;&#x5BB9;&#x5668;&#x652F;&#x6301;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#xFF0C;&#x5E76;&#x4E14;&#x662F;&#x4F7F;&#x7528;swift-native&#x7684;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#xFF08;&#x533A;&#x522B;&#x4E8E;oc&#x8FD0;&#x884C;&#x65F6;&#xFF09;&#x3002;&#x56E0;&#x6B64;box&#x7C7B;&#x578B;&#x4E5F;&#x53EF;&#x4EE5;&#x8F6C;&#x6210;Builtin.NativeObject&#x7C7B;&#x578B;&#x8FDB;&#x884C;&#x8BBF;&#x95EE;&#x3002;</p>
+<h2 id="metatype-types">Metatype Types</h2>
+<p>&#x4E00;&#x4E2A;&#x5177;&#x4F53;&#x7684;SIL&#x7C7B;&#x578B;&#xFF0C;&#x5FC5;&#x987B;&#x8BF4;&#x660E;&#x5B83;&#x7684;Metatype&#x5C5E;&#x6027;&#xFF1A;</p>
+<ul>
+<li>@thin, &#x8BE5;&#x7C7B;&#x578B;&#x4E0D;&#x9700;&#x8981;&#x989D;&#x5916;&#x7684;&#x5916;&#x90E8;&#x5B58;&#x50A8;&#xFF0C;&#x5DF2;&#x7ECF;&#x53EF;&#x4EE5;&#x5FC5;&#x8981;&#x5730;&#x8868;&#x8FBE;&#x4E00;&#x4E2A;&#x5177;&#x4F53;&#x7C7B;&#x578B;&#x4E86;</li>
+<li>@thick, &#x8BE5;&#x7C7B;&#x578B;&#x5B58;&#x50A8;&#x7684;&#x662F;&#x4E00;&#x4E2A;&#x5F15;&#x7528;&#xFF0C;&#x8FD9;&#x4E2A;&#x5F15;&#x7528;&#x6307;&#x5411;&#x5916;&#x90E8;&#x7684;&#x5177;&#x4F53;&#x7C7B;&#x578B;</li>
+<li>@objc, &#x8868;&#x793A;&#x8FD9;&#x4E2A;&#x7C7B;&#x578B;&#x662F;OC&#x7684;&#x5BF9;&#x8C61;&#x7C7B;&#x578B;</li>
+</ul>
+<h2 id="function-types">Function Types</h2>
+<p>SIL&#x7684;function&#x7C7B;&#x578B;&#x4E5F;&#x6709;&#x7EC6;&#x5206;&#x5DEE;&#x5F02;&#xFF1A;</p>
+<ul>
+<li>escape &#x7279;&#x6027;<ul>
+<li>&#x51FD;&#x6570;&#x58F0;&#x660E;&#x7684;&#x53C2;&#x6570;&#x5217;&#x8868;&#x4E2D;&#xFF0C;&#x5305;&#x542B;&#x6709;noescape&#x7C7B;&#x578B;&#x7684;function&#x7C7B;&#x578B;&#x5165;&#x53C2;&#x7684;&#x8BDD;&#xFF0C;&#x8BE5;&#x53C2;&#x6570;&#x5728;&#x964D;&#x7EA7;&#x65F6;&#x4F1A;&#x88AB;&#x6807;&#x6CE8;&#x4E3A;@convention(thin) &#x6216;&#x8005; @callee_guaranteed. &#x8FD9;&#x79CD;&#x5165;&#x53C2;&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;&#x53EF;&#x80FD;&#x8D85;&#x8FC7;&#x51FD;&#x6570;&#x672C;&#x8EAB;&#xFF0C;&#x56E0;&#x6B64;&#x5165;&#x53C2;&#x9700;&#x8981;&#x72EC;&#x7ACB;&#x7684;&#x4E0A;&#x4E0B;&#x6587;&#x7531;&#x5916;&#x90E8;&#x72EC;&#x7ACB;&#x7BA1;&#x7406;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;unowned.</li>
+</ul>
+</li>
+</ul>
+<pre><code>F.Y.I.
+    function&#x7C7B;&#x578B;&#x4F5C;&#x4E3A;&#x5165;&#x53C2;&#x7684; escape&#x7279;&#x6027;&#x9ED8;&#x8BA4;&#x503C;&#xFF0C;&#x5BF9;&#x4E8E;Swift&#xFF1A;
+        &lt;= 3.0  @escape as default
+        &gt;= 4.0 @nonescape as default
+
+        ref&#xFF1A; https://github.com/apple/swift-evolution/blob/master/proposals/0103-make-noescape-default.md
+</code></pre><ul>
+<li>SIL function&#x7C7B;&#x578B;&#x58F0;&#x660E;&#x4E86;&#x8C03;&#x7528;&#x7684;&#x4E0A;&#x4E0B;&#x6587;&#x7EC6;&#x8282;&#xFF1A;
+- </li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../SILStage.html" class="navigation navigation-prev " aria-label="Previous page: SIL Stage">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../ValuesAndOperands.html" class="navigation navigation-next " aria-label="Next page: Values and Operands">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"SIL Types","level":"1.4.2","depth":2,"next":{"title":"Values and Operands","level":"1.4.3","depth":2,"path":"src/ValuesAndOperands.md","ref":"src/ValuesAndOperands.md","articles":[]},"previous":{"title":"SIL Stage","level":"1.4.1","depth":2,"path":"src/SILStage.md","ref":"src/SILStage.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/types/SILTypes.md","mtime":"2020-08-24T10:40:36.733Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-26T13:22:49.897Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

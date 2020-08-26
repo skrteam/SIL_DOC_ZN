@@ -15,7 +15,7 @@
 与SIL处理相关的特定阶段如下：
 
 
-##SILGen
+## SILGen
 
 
 SILGen输入已确定类型的AST',通过遍历AST'，生成 *raw SIL* 。
@@ -26,7 +26,7 @@ SILGen输入已确定类型的AST',通过遍历AST'，生成 *raw SIL* 。
  - 强行函数内联(transparent function)优化不在这个阶段
 
 
-##Guaranteed Optimization and Diagnostic Passes
+## Guaranteed Optimization and Diagnostic Passes
 
 
 在SILGen生成 *raw sil* ，输入到必选的优化管道处理器中，随后输入诊断管道处理器中。如果源码不变，我们不希望以为编译器的升级或改动导致在该阶段输出的错误、警告等诊断信息跟着变化，因此这要求这些争端处理器都设计得足够简单，并且可以预测输出结果。
@@ -62,7 +62,7 @@ TODO：
 - 基础ARC优化，指为了达到可接受的性能而进行的最基本的，而且是强制的ARC优化，即使在-Onone模式也会执行
 
 
-##General Optimization Passes
+## General Optimization Passes
 
 SIL可以提供更多和语言特性相关的类型信息，从而可以在高层级(high-level)进行优化。而LLVM IR不适合做这类优化，因为它是通用的，和高级语言特性无关的。这也是SIL存在的意义。
 
