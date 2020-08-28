@@ -5,7 +5,7 @@ SIL支持两种基于类型的别名分析（TBAA）: Class TBAA 和 类型化�
 
 ## Class TBAA
 
-对Class实例和堆上其他的对象的引用在实现层面还是通过指针进行实现的。SIL的address类型则不同，他们是SIL类型的一等公民(first-class)，SIL address值可以被捕获(captured)和起别名(aliased)。
+对Class实例和堆上其他的对象的引用的实现是通过指针，和SIL中的address类型不同，他们是SIL类型的一等公民(first-class)，指针可以被捕获(captured)和别名化(aliased)。
 Swift是一个内存安全、静态类型的语言，所以Class的别名必须符合以下约束：
 
 - Builtin.NativeObject类型可以作为堆上任意的Swift Native object的别名，包括swift class实例，通过alloc_box创建的box类型，或者thick的函数闭包。但不能作为ObjC对象的别名。
