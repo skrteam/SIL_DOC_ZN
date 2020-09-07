@@ -254,5 +254,65 @@ SIL支持两种协程：@yield_many 和 @yield_once。 将该属性写在函数�
 /// ？？？  lattner的proposal是 async-await风格  https://gist.github.com/lattner/429b9070918248274f25b714dcfc7619
 
 
+## Properties of Types
 
+根据ABI稳定性和泛型约束，把SIL类型分类成了以下几组：
+
+- Loadable type, 指可以完全暴露地用SIL进行具体表示的类型
+  - Reference types
+  - Builtin value types
+  - Fragile struct types in which all element types are loadable
+  - Tuple types in which all element types are loadable
+  - Class protocol types
+  - Archetypes constrained by a class protocol
+
+loadable类型的值可以对其本身或独立的子结构进行load和store。因此：
+  - loadable类型的值可以load进SIL SSA的值中，并且store操作不需要运行额外的用户编码，需注意编译器会自动生产ARC代码。
+  - 对loadable类型的值进行比特序拷贝，就可以获得一个初始化好的拷贝值
+
+
+loadable的聚合类型包括了loadable的struct和tuple。
+
+
+    trivial类型本身就包含了loabable的语义。而且trivial 的load和store操作不需要ARC，其值也不需要销毁。
+
+- Runtime-sized types,是指在编译器无法获得静态尺寸的类型，包括：
+  - Resilient value types 具有弹性（动态）尺寸的值
+  - Fragile struct or tuple types that contain resilient types as elements at any depth
+  - Archetypes not constrained by a class protocol
+
+- Address-only types,是指不能load或以其他方式作为SSA值使用的类型
+  - Runtime-sized types
+  - Non-class protocol types
+  - @weak types
+  - 不满足loadable的要求的类型。比如某些值和内存位置相关联，在copy和move的时候需要运行一些用户定义的编码。最常见的情况是，这些值注册在全局作用域的数据结构上，或者其包含了指向自身的指针。比如：
+    - @weak标记的弱引用的值的地址被注册在一个全局表中。当该@weak值被copy和move到新的地址时，全局注册表也需要更新。
+    - 堆上不支持COW(CopyOnWrite)的集合类型对象，（就像C++的std::vector），当集合被copy的时候，集合元素也需要一起被copy到新的内存地址。
+    - 不支持COW的String类型，但通过持有指向自己的指针来实现一些优化的情况（就像C++里的std::string）。当String值被copy和move之后，该内部指针也需要更新。
+
+address-only类型的值必须始终在内存里，SIL要使用只能通过内存引用，不可以做load和store操作。SIL提供了一些指令，间接地操作address-only类型，比如copy_addr和 destroy_addr。
+
+
+
+另外，还有一些可以被分类的类型：
+- 堆对象引用类型：其表示包含一个强引用计数的指针。包括：所有的class类型，Builtin.NativeObject，AnyObject，遵循class protocol的archetype。
+- 引用类型在低级表示中可以包含额外的全局指针，和一个强引用计数指针。该类型包括所有的堆对象引用类型，thick函数类型，以及遵循class protocol的protocol类型。所有引用类型都可以被retain和release，也可以拥有ownership语义的表示。
+- 于ObjC的ID类型兼容的可retain指针表示。在运行时该值可能为nil。这包括了classes, class metatypes, block functions， class-bounded existentials with only Objective-C-compatible protocol constraints，还有用Optional或者ImplicitlyUnwrappedOptional对以上类型进行包装的类型。具有可retain的指针表示的类型可以使用@autoreleased的规范进行return。
+
+
+SILGen不能保证将Swift函数类型一一映射到SIL函数类型。函数类型的转换就是给其编码一些额外的属性：
+
+- 关于调用约定的语义，通过以下属性表示：
+
+```
+@convention(convention)
+```
+该属性和语言层面的@convention有点像，但在SIL层扩展了多个额外的版本：
+  - @convention(thin)，thin函数：使用swift调用约定，并且不会额外传递"self"或"context"参数
+  - @convention(thick)，thick函数：使用swift调用约定，并且传递一个引用计数的context对象。context捕获上下文信息或者持有函数的状态。该属性具有 @callee_owned 或者 @callee_guaranteed的Ownership语义
+  - @convention(block)，ObjC兼容的block。兼容ObjC的ID类型，其对象包含了block的调用函数，其使用C的调用约定。
+  - @convention(c)，C函数：不携带context，使用C函数调用约定：使用C调用约定，在SIL层会携带一个self参数，在实现层面，映射为self和_cmd参数。
+  - @convention(objc_method)，使用ObjC方法实现。
+  - @convention(method)，Swift实例方法实现。使用Swift调用约定，携带特殊的self参数。
+  - @convention(witness_method)，Swift协议方法实现。通过这样的函数的多态转化来保证协议的所有实现都是多态的。
 
