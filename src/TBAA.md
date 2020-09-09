@@ -5,7 +5,7 @@ SIL支持两种基于类型的别名分析（TBAA）: Class TBAA 和 类型化�
 
 ## Class TBAA
 
-对Class实例和堆上其他的对象的引用的实现是通过指针，和SIL中的address类型不同，他们是SIL类型的一等公民(first-class)，指针可以被捕获(captured)和别名化(aliased)。
+对Class实例和堆上其他的对象的引用的实现是通过指针，和SIL中的address类型不同，他们是SIL类型的一等公民(first-class)，可以被捕获(captured)和别名化(aliased)。
 Swift是一个内存安全、静态类型的语言，所以Class的别名必须符合以下约束：
 
 - Builtin.NativeObject类型可以作为堆上任意的Swift Native object的别名，包括swift class实例，通过alloc_box创建的box类型，或者thick的函数闭包。但不能作为ObjC对象的别名。
@@ -17,11 +17,11 @@ Swift是一个内存安全、静态类型的语言，所以Class的别名必须�
 - 由于局部代码没有全局的可见性，因此必须假设泛型和协议的占位类型(泛型对应archetype, 协议对应 typealias)可能是任意的class实例的别名。即使从局部代码来看，某个class可能没有遵循特定协议，但在模块外可能它的某个extension实现了该协议。对于泛型，同理。
 
 如果违反以上规则，在swift代码中解引用别名的引用值，那么程序可能会出现未定义的行为。
-举个例子，__SwiftNativeNS[Array|Dictionary|String] classes 其实是 NS[Array|Dictionary|String] classes的别名，但他们在静态结构上是没有关联的。但是由于Swift不会对Foundation Class实例的存储类属性(StoredProperty，区别与计算型)进行直接的访问，因此对他们的别名化不会导致问题。
+举个例子，__SwiftNativeNS[Array|Dictionary|String] classes 其实是 NS[Array|Dictionary|String] classes的别名，但他们静态关联的。但是由于Swift不会对Foundation Class实例的存储类属性(StoredProperty，区别与计算型)进行直接的访问，因此对他们的别名化不会导致问题。
 
 ## Typed Access TBAA
 
-对地址或引用的类型化访问，定义如下：
+对地址或引用的类型化访问(typed access)，定义如下：
 - 通过特定指令对特定地址的进行基于类型的读写访问，(e.x. load, store).
 - 通过特定指令进行类型投射，给出特定类型内部元素指针偏移量(e.x. ref_element_addr, tuple_element_addr).
 

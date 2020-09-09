@@ -40,7 +40,7 @@ bb0(%kls1 : @owned $Klass): // Definition of %kls1
 上面例子中只使用到了“Owned”语义，事实上，在SIL中，支持共四种Ownership语义：
 
 - None 
-  - 表示该值需要进行内存管理，不遵循OSSA的不可变要求。例如：
+  - 表示该值不需要进行内存管理，不遵循OSSA的不可变要求。例如：
     - trivial values (e.x.: Int, Float), 
     - non-payloaded cases of non-trivial enums (e.x.: Optional<T>.none)
     - all address types
