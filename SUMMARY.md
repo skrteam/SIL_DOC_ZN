@@ -14,8 +14,8 @@
     * [Basic Blocks](src/BasicBlocks.md)
     * [Debug Information]
     * [Declaration References]
-    * [Linkage]
-    * [VTables]
+    * [Linkage](src/Linkage.md)
+    * [VTables](src/VTable.md)
     * [Witness Tables]
     * [Default Witness Tables]
     * [Global Variables]
