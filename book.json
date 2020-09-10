@@ -1,0 +1,8 @@
+{
+    "title": "SIL中文手册",
+    "description": "Swift中间IR语言中文手册",
+    "language": "zh",
+    "license": "cc by nc sa 4.0",
+    "author": "Minhao Hsu",
+    "structure.glossary": "GLOSSARY.md"
+  }
