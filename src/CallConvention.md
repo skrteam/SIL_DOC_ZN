@@ -171,6 +171,12 @@ apply %zang(%x, %y, %zs, %v, %ws)  : $(x:Int, (y:Int, z:Int...), v:Int, w:Int...
 如果@inout实参引用的是一个逻辑属性，那么这个实参是caller-owned 的可回写的buffer的地址。这时caller负责通过在调用函数之前存储属性getter的结果来初始化buffer，并在return时通过从buffer load
 并用最终值调用setter来写回属性。
 
+/// FYI： fragile physical 变量
+///   In-Out 参数传递有两种方式：
+///     copy-in copy-out 和 call-by-referernce
+///     其中后者为优化，可省略copy过程
+/// ref： https://docs.swift.org/swift-book/ReferenceManual/Declarations.html
+
 Swift代码如下：
 ```
 func inout(_ x: inout Int) {
@@ -238,5 +244,5 @@ sil @NSString_stringByPaddingToLength_withString_startingAtIndex \
 在SIL IR层，self和_cmd作为方法调用前面的参数，都被抽离出来了，默认隐藏了。
 
 ## GOSSARY
-fragile physical变量?
+fragile physical变量 |        | inout参数传递 callbyreference优化
 

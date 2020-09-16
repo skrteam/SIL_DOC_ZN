@@ -1,14 +1,14 @@
 
 <!DOCTYPE HTML>
-<html lang="" >
+<html lang="zh" >
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>0x0 摘要 · GitBook</title>
+        <title>0x0 摘要 · SIL中文手册</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
-        
+        <meta name="author" content="Minhao Hsu">
         
         
     
@@ -71,7 +71,7 @@
         
             
 <div id="book-search-input" role="search">
-    <input type="text" placeholder="Type to search" />
+    <input type="text" placeholder="輸入並搜尋" />
 </div>
 
             
@@ -278,27 +278,27 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4.8" >
+        <li class="chapter " data-level="1.4.8" data-path="Linkage.html">
             
-                <span>
+                <a href="Linkage.html">
             
                     
-                    [Linkage]
+                    Linkage
             
-                </span>
+                </a>
             
 
             
         </li>
     
-        <li class="chapter " data-level="1.4.9" >
+        <li class="chapter " data-level="1.4.9" data-path="VTable.html">
             
-                <span>
+                <a href="VTable.html">
             
                     
-                    [VTables]
+                    VTables
             
-                </span>
+                </a>
             
 
             
@@ -620,7 +620,7 @@
 
     <li>
         <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
-            Published with GitBook
+            本書使用 GitBook 釋出
         </a>
     </li>
 </ul>
@@ -660,15 +660,20 @@
                                 
                                 <h1 id="0x0-&#x6458;&#x8981;">0x0 &#x6458;&#x8981;</h1>
 <hr>
-<p>SIL&#x662F;Swift&#x7684;&#x4E2D;&#x95F4;&#x8BED;&#x8A00;&#xFF0C;&#x7B26;&#x5408;SSA&#xFF08;Static-Single-Assignemt&#xFF0C;&#x89C1;&#x4E0B;&#x6587;&#xFF09;&#x6807;&#x51C6;&#xFF0C;&#x63D0;&#x4F9B;&#x9AD8;&#x5C42;&#x7684;&#x8BED;&#x4E49;&#x4FE1;&#x606F;&#x3002;&#x5B83;&#x652F;&#x6301;&#x4EE5;&#x4E0B;&#x7684;&#x7528;&#x4F8B;&#x573A;&#x666F;&#xFF1A;</p>
+<p>SIL&#x662F;Swift&#x7684;&#x4E2D;&#x95F4;&#x8BED;&#x8A00;&#xFF0C;&#x63D0;&#x4F9B;&#x4E86;&#x548C;Swift&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x5B9E;&#x73B0;&#x76F8;&#x5173;&#x7684;&#x9AD8;&#x5C42;&#x7684;&#x8BED;&#x4E49;&#x4FE1;&#x606F;&#xFF0C;&#x5176;&#x5F62;&#x5F0F;&#x9075;&#x5FAA;&#x4E86;SSA&#xFF08;Static-Single-Assignemt&#xFF09;&#x6807;&#x51C6;&#x3002;&#x5B83;&#x652F;&#x6301;&#x4EE5;&#x4E0B;&#x7684;&#x7528;&#x4F8B;&#xFF1A;</p>
 <ul>
-<li>&#x63D0;&#x4F9B;&#x9AD8;&#x5C42;&#x7684;guaranteed optimization(&#x4E00;&#x79CD;&#x57FA;&#x4E8E;&#x8BC1;&#x636E;&#x7684;&#x53EF;&#x88AB;&#x68C0;&#x9A8C;&#x7684;&#x7F16;&#x8BD1;&#x5668;&#x4F18;&#x5316;&#x6280;&#x672F;)&#xFF0C;&#x63D0;&#x4F9B;&#x53EF;&#x9884;&#x671F;&#x7684;&#x8FD0;&#x884C;&#x65F6;&#x4F18;&#x5316;&#x57FA;&#x7EBF;&#xFF0C;&#x5E76;&#x5728;&#x8BCA;&#x65AD;&#x5206;&#x6790;&#x4E2D;&#x63D0;&#x4F9B;&#x53EF;&#x9884;&#x671F;&#x7684;&#x884C;&#x4E3A;&#x3002;</li>
+<li>&#x63D0;&#x4F9B;&#x9AD8;&#x5C42;&#x7684;guaranteed optimization&#xFF0C;&#x63D0;&#x4F9B;&#x53EF;&#x9884;&#x671F;&#x7684;&#x8FD0;&#x884C;&#x65F6;&#x4F18;&#x5316;&#x57FA;&#x7EBF;&#xFF0C;&#x5E76;&#x5728;&#x8BCA;&#x65AD;&#x5206;&#x6790;&#x4E2D;&#x63D0;&#x4F9B;&#x53EF;&#x9884;&#x671F;&#x7684;&#x884C;&#x4E3A;&#x3002;</li>
 <li>&#x63D0;&#x4F9B;&#x8BCA;&#x65AD;&#x5206;&#x6790;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x6D41;&#x5206;&#x6790;&#x901A;&#x9053;&#x5904;&#x7406;&#x5668;&#xFF08;Passes&#xFF09;&#xFF0C;&#x4EE5;&#x786E;&#x4FDD;&#x4EE3;&#x7801;&#x7B26;&#x5408;Swift&#x7684;&#x5F3A;&#x5236;&#x89C4;&#x8303;&#x3002;&#x5305;&#x62EC;&#xFF1A;&#x53D8;&#x91CF;&#x7684;&#x521D;&#x59CB;&#x5316;&#x68C0;&#x67E5;&#xFF0C;&#x6784;&#x9020;&#x5668;&#x7F3A;&#x5931;&#x68C0;&#x67E5;&#xFF0C;&#x4EE3;&#x7801;&#x53EF;&#x53CA;&#x6027;&#x68C0;&#x67E5;&#xFF0C;switch&#x5206;&#x652F;&#x7684;&#x6761;&#x4EF6;&#x8986;&#x76D6;&#x5206;&#x6790;&#x7B49;&#x3002;</li>
-<li>&#x63D0;&#x4F9B;&#x9AD8;&#x5C42;&#x7684;&#x7F16;&#x8BD1;&#x4F18;&#x5316;&#x901A;&#x9053;&#xFF0C;&#x5305;&#x62EC;&#xFF1A;ARC&#x4F18;&#x5316;&#xFF0C;&#x52A8;&#x6001;&#x65B9;&#x6CD5;&#x53BB;&#x865A;&#x62DF;&#x5316;&#xFF0C;&#x95ED;&#x5305;&#x5185;&#x8054;&#x5316;&#xFF0C;&#x4F7F;&#x7528;&#x5806;&#x5185;&#x5B58;&#x63D0;&#x5347;&#x4E3A;&#x4F7F;&#x7528;&#x6808;&#x5185;&#x5B58;&#xFF0C;&#x4F7F;&#x7528;&#x6808;&#x5185;&#x5B58;&#x63D0;&#x5347;&#x4E3A;&#x4F7F;&#x7528;SSA&#x5BC4;&#x5B58;&#x5668;&#xFF0C;scalar replacement of aggreates(&#x628A;&#x805A;&#x5408;&#x7684;&#x5927;&#x5FEB;&#x5185;&#x5B58;&#x7533;&#x8BF7;&#x5206;&#x5272;&#x4E3A;&#x591A;&#x4E2A;&#x5C0F;&#x5757;&#x5185;&#x5B58;&#x7533;&#x8BF7;)&#xFF0C;&#x6CDB;&#x578B;&#x51FD;&#x6570;&#x5B9E;&#x4F8B;&#x5316;&#x7B49;&#x3002;</li>
+<li>&#x63D0;&#x4F9B;&#x9AD8;&#x5C42;&#x7684;&#x7F16;&#x8BD1;&#x4F18;&#x5316;&#x901A;&#x9053;&#xFF0C;&#x5305;&#x62EC;&#xFF1A;ARC&#x4F18;&#x5316;&#xFF0C;&#x52A8;&#x6001;&#x65B9;&#x6CD5;&#x53BB;&#x865A;&#x62DF;&#x5316;&#xFF0C;&#x95ED;&#x5305;&#x5185;&#x8054;&#x5316;&#xFF0C;&#x4F7F;&#x7528;&#x5806;&#x5185;&#x5B58;&#x63D0;&#x5347;&#x4E3A;&#x4F7F;&#x7528;&#x6808;&#x5185;&#x5B58;&#xFF0C;&#x4F7F;&#x7528;&#x6808;&#x5185;&#x5B58;&#x63D0;&#x5347;&#x4E3A;&#x4F7F;&#x7528;SSA&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x805A;&#x5408;&#x5185;&#x5B58;&#x6807;&#x91CF;&#x66FF;&#x6362;&#xFF08;scalar replacement of aggreates&#xFF0C;&#x628A;&#x805A;&#x5408;&#x7684;&#x5927;&#x5757;&#x5185;&#x5B58;&#x7533;&#x8BF7;&#x5206;&#x5272;&#x4E3A;&#x591A;&#x4E2A;&#x5C0F;&#x5757;&#x5185;&#x5B58;&#x7533;&#x8BF7;&#xFF09;&#xFF0C;&#x6CDB;&#x578B;&#x51FD;&#x6570;&#x5B9E;&#x4F8B;&#x5316;&#x7B49;&#x3002;</li>
 <li>&#x4E3A;Swift&#x5E93;&#x63D0;&#x4F9B;&#x4E00;&#x79CD;&#x7A33;&#x5B9A;&#x7684;&#x5206;&#x53D1;&#x683C;&#x5F0F;&#xFF0C;&#x5F15;&#x7528;&#x7AEF;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5185;&#x8054;&#x3001;&#x6CDB;&#x578B;&#x7B49;&#x7279;&#x6027;&#x8FDB;&#x884C;&#x7F16;&#x8BD1;&#x4F18;&#x5316;&#x3002;</li>
 </ul>
-<p>&#x76F8;&#x6BD4;LLVM&#x7684;&#x4E2D;&#x95F4;&#x8BED;&#x8A00;&#xFF0C;&#x901A;&#x5E38;SIL&#x662F;&#x201C;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x65E0;&#x5173;&#x201D;&#x7684;&#xFF0C;&#x5373;&#x5B83;&#x4E0D;&#x5173;&#x5FC3;&#x5177;&#x4F53;&#x8F93;&#x51FA;&#x7684;&#x76EE;&#x6807;&#x4EE3;&#x7801;&#x8FD0;&#x884C;&#x5728;&#x4EC0;&#x4E48;&#x67B6;&#x6784;&#x5E73;&#x53F0;&#x4E0A;&#xFF0C;&#x4F46;&#x5B83;&#x4E5F;&#x53EF;&#x4EE5;&#x548C;LLVM&#x4E00;&#x6837;&#x505A;&#x5230;&#x201C;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x5173;&#x8054;&#x201D;&#x3002;</p>
+<p>&#x76F8;&#x6BD4;LLVM&#x7684;&#x4E2D;&#x95F4;&#x8BED;&#x8A00;&#xFF0C;&#x901A;&#x5E38;SIL&#x662F;&#x201C;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x65E0;&#x5173;&#x201D;&#x7684;&#xFF0C;&#x5373;&#x5B83;&#x4E0D;&#x5173;&#x5FC3;&#x5177;&#x4F53;&#x8F93;&#x51FA;&#x7684;&#x76EE;&#x6807;&#x4EE3;&#x7801;&#x8FD0;&#x884C;&#x5728;&#x4EC0;&#x4E48;&#x67B6;&#x6784;&#x5E73;&#x53F0;&#x4E0A;&#xFF0C;&#x4F46;&#x5B83;&#x4E5F;&#x53EF;&#x4EE5;&#x548C;LLVM&#x4E00;&#x6837;&#x505A;&#x5230;&#x201C;target-specific&#x201D;&#x3002;</p>
 <p>&#x4E86;&#x89E3;&#x66F4;&#x591A;&#x5173;&#x4E8E;&#x5F00;&#x53D1;SIL&#x548C;SIL&#x901A;&#x9053;&#x5904;&#x7406;&#x5668;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x53C2;&#x89C1;&#x300A;SILProgrammersManual&#x300B;</p>
+<h2 id="gossary">GOSSARY</h2>
+<p>guaranteed optimization |        | &#x4E00;&#x79CD;&#x57FA;&#x4E8E;&#x8BC1;&#x636E;&#x7684;&#x53EF;&#x88AB;&#x68C0;&#x9A8C;&#x7684;&#x7F16;&#x8BD1;&#x5668;&#x4F18;&#x5316;&#x6280;&#x672F;
+pass &#xFF5C; &#x901A;&#x9053;&#x5904;&#x7406;&#x5668; &#xFF5C; &#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x4E3A;&#x5355;&#x5411;&#x7684;&#x901A;&#x9053;&#x5904;&#x7406;&#x5668;
+scalar replacement of aggreates&#xFF5C; &#x805A;&#x5408;&#x5185;&#x5B58;&#x6807;&#x91CF;&#x66FF;&#x6362; &#xFF5C;&#x4E00;&#x79CD;&#x4F18;&#x5316;&#xFF0C;&#x628A;&#x805A;&#x5408;&#x7684;&#x5927;&#x5757;&#x5185;&#x5B58;&#x7533;&#x8BF7;&#x5206;&#x5272;&#x4E3A;&#x591A;&#x4E2A;&#x5C0F;&#x5757;&#x5185;&#x5B58;&#x7533;&#x8BF7;
+target-specific &#xFF5C; &#x6307;&#x5B9A;&#x76EE;&#x6807;&#x4EA7;&#x7269;&#xFF5C; &#x6307;&#x5B9A;&#x8F93;&#x51FA;&#x7684;&#x4EA7;&#x7269;&#x4E3A;&#x67D0;&#x5E73;&#x53F0;&#x6216;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x6240;&#x652F;&#x6301;&#x7684;&#x683C;&#x5F0F;</p>
 
                                 
                                 </section>
@@ -712,7 +717,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"0x0 摘要","level":"1.2","depth":1,"next":{"title":"0x1 SIL和编译流程","level":"1.3","depth":1,"path":"src/SILCompiler.md","ref":"src/SILCompiler.md","articles":[{"title":"SILGen","level":"1.3.1","depth":2,"anchor":"#SILGen","path":"src/SILCompiler.md","ref":"src/SILCompiler.md#SILGen","articles":[]},{"title":"Guaranteed Optimization and Diagnostic Passes","level":"1.3.2","depth":2,"path":"src/SILCompiler.md","ref":"src/SILCompiler.md","articles":[]},{"title":"General Optimization Passes","level":"1.3.3","depth":2,"path":"src/SILCompiler.md","ref":"src/SILCompiler.md","articles":[]}]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/abstract.md","mtime":"2020-08-17T08:16:30.856Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-26T13:22:49.897Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"0x0 摘要","level":"1.2","depth":1,"next":{"title":"0x1 SIL和编译流程","level":"1.3","depth":1,"path":"src/SILCompiler.md","ref":"src/SILCompiler.md","articles":[{"title":"SILGen","level":"1.3.1","depth":2,"anchor":"#SILGen","path":"src/SILCompiler.md","ref":"src/SILCompiler.md#SILGen","articles":[]},{"title":"Guaranteed Optimization and Diagnostic Passes","level":"1.3.2","depth":2,"path":"src/SILCompiler.md","ref":"src/SILCompiler.md","articles":[]},{"title":"General Optimization Passes","level":"1.3.3","depth":2,"path":"src/SILCompiler.md","ref":"src/SILCompiler.md","articles":[]}]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"license":"cc by nc sa 4.0","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Minhao Hsu","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"SIL中文手册","language":"zh","structure.glossary":"GLOSSARY.md","gitbook":"*","description":"Swift中间IR语言中文手册"},"file":{"path":"src/abstract.md","mtime":"2020-09-16T07:04:41.775Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-16T05:23:55.145Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

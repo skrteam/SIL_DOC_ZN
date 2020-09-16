@@ -1,14 +1,14 @@
 
 <!DOCTYPE HTML>
-<html lang="" >
+<html lang="zh" >
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Basic Blocks · GitBook</title>
+        <title>Basic Blocks · SIL中文手册</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
-        
+        <meta name="author" content="Minhao Hsu">
         
         
     
@@ -69,7 +69,7 @@
         
             
 <div id="book-search-input" role="search">
-    <input type="text" placeholder="Type to search" />
+    <input type="text" placeholder="輸入並搜尋" />
 </div>
 
             
@@ -276,27 +276,27 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4.8" >
+        <li class="chapter " data-level="1.4.8" data-path="Linkage.html">
             
-                <span>
+                <a href="Linkage.html">
             
                     
-                    [Linkage]
+                    Linkage
             
-                </span>
+                </a>
             
 
             
         </li>
     
-        <li class="chapter " data-level="1.4.9" >
+        <li class="chapter " data-level="1.4.9" data-path="VTable.html">
             
-                <span>
+                <a href="VTable.html">
             
                     
-                    [VTables]
+                    VTables
             
-                </span>
+                </a>
             
 
             
@@ -618,7 +618,7 @@
 
     <li>
         <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
-            Published with GitBook
+            本書使用 GitBook 釋出
         </a>
     </li>
 </ul>
@@ -657,6 +657,52 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="basic-blocks">Basic Blocks</h1>
+<pre><code>sil-basic-block ::= sil-label sil-instruction-def* sil-terminator
+sil-label ::= sil-identifier (&apos;(&apos; sil-argument (&apos;,&apos; sil-argument)* &apos;)&apos;)? &apos;:&apos;
+sil-value-ownership-kind ::= @owned
+sil-value-ownership-kind ::= @guaranteed
+sil-value-ownership-kind ::= @unowned
+sil-argument ::= sil-value-name &apos;:&apos; sil-value-ownership-kind? sil-type
+
+sil-instruction-result ::= sil-value-name
+sil-instruction-result ::= &apos;(&apos; (sil-value-name (&apos;,&apos; sil-value-name)*)? &apos;)&apos;
+sil-instruction-source-info ::= (&apos;,&apos; sil-scope-ref)? (&apos;,&apos; sil-loc)?
+sil-instruction-def ::=
+  (sil-instruction-result &apos;=&apos;)? sil-instruction sil-instruction-source-info
+</code></pre><p>&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x7684;body&#x5305;&#x542B;&#x81F3;&#x5C11;&#x4E00;&#x4E2A;basic block,bb&#x7684;&#x6570;&#x91CF;&#x662F;&#x7531;&#x51FD;&#x6570;&#x7684;CFG(control-flow-graph)&#x7684;&#x8282;&#x70B9;&#x6570;&#x51B3;&#x5B9A;&#x7684;&#x3002;
+&#x6BCF;&#x4E2A;BB&#x5305;&#x542B;&#x81F3;&#x5C11;&#x4E00;&#x6761;&#x6307;&#x4EE4;&#xFF0C;&#x5E76;&#x4E14;&#x4EE5;&#x4E00;&#x6761;terminator&#x6307;&#x4EE4;&#x7ED3;&#x675F;&#x3002;
+&#x51FD;&#x6570;&#x5165;&#x53E3;&#x603B;&#x662F;&#x5B83;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;BB&#x3002;</p>
+<p>BB&#x91CC;&#x5305;&#x542B;&#x4E86;&#x53C2;&#x6570;&#xFF0C;&#x8FD9;&#x7C7B;&#x4F3C;&#x4E8E;LLVM&#x7684;phi&#x8282;&#x70B9;&#x3002;BB&#x7684;&#x53C2;&#x6570;&#x4E0E;&#x524D;&#x5E8F;BB&#x5230;&#x5F53;&#x524D;BB&#x7684;branch&#x8DEF;&#x5F84;&#x6709;&#x5173;&#x3002;</p>
+<pre><code>sil @iif : $(Builtin.Int1, Builtin.Int64, Builtin.Int64) -&gt; Builtin.Int64 {
+bb0(%cond : $Builtin.Int1, %ifTrue : $Builtin.Int64, %ifFalse : $Builtin.Int64):
+  cond_br %cond : $Builtin.Int1, then, else
+then:
+  br finish(%ifTrue : $Builtin.Int64)
+else:
+  br finish(%ifFalse : $Builtin.Int64)
+finish(%result : $Builtin.Int64):
+  return %result : $Builtin.Int64
+}
+</code></pre><p>&#x5982;&#x679C;&#x5F53;&#x524D;BB&#x6CA1;&#x6709;&#x524D;&#x5E8F;&#x7684;BB&#xFF0C;&#x90A3;&#x4E48;&#x5B83;&#x7684;&#x53C2;&#x6570;&#x6765;&#x81EA;&#x8C03;&#x7528;&#x8005;&#xFF1A;</p>
+<pre><code>sil @foo : $@convention(thin) (Int) -&gt; Int {
+bb0(%x : $Int):
+  return %x : $Int
+}
+
+sil @bar : $@convention(thin) (Int, Int) -&gt; () {
+bb0(%x : $Int, %y : $Int):
+  %foo = function_ref @foo
+  %1 = apply %foo(%x) : $(Int) -&gt; Int
+  %2 = apply %foo(%y) : $(Int) -&gt; Int
+  %3 = tuple ()
+  return %3 : $()
+}
+</code></pre><p>&#x5982;&#x679C;&#x8BE5;&#x51FD;&#x6570;&#x5E94;&#x7528;&#x4E86;Ownership SSA&#x7684;&#x89C4;&#x8303;&#xFF0C;&#x90A3;&#x4E48;&#x53C2;&#x6570;&#x4F1A;&#x663E;&#x793A;&#x5730;&#x6DFB;&#x52A0;&#x4E00;&#x4E9B;&#x89C4;&#x8303;&#x7684;&#x6CE8;&#x89E3;&#x4FE1;&#x606F;&#xFF0C;&#x7528;&#x6765;&#x63CF;&#x8FF0;&#x53C2;&#x6570;&#x7684;Ownership&#x8BED;&#x4E49;&#x3002;</p>
+<pre><code>sil [ossa] @baz : $@convention(thin) (Int, @owned String, @guaranteed String, @unowned String) -&gt; () {
+bb0(%x : $Int, %y : @owned $String, %z : @guaranteed $String, %w : @unowned $String):
+  ...
+}
+</code></pre><p>&#x6CE8;&#x610F;&#xFF0C;&#x4EE5;&#x4E0A;&#x4EE3;&#x7801;&#x91CC;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;%x&#x62E5;&#x6709;&#x4E00;&#x4E2A;&#x9690;&#x5F0F;&#x7684;@none ownership&#x8BED;&#x4E49;&#xFF0C;&#x8FD9;&#x662F;&#x7531;&#x4E8E;Int&#x5C5E;&#x4E8E;trivial type&#xFF0C;&#x9ED8;&#x8BA4;&#x662F;none&#xFF0C;&#x662F;&#x7B26;&#x5408;&#x89C4;&#x8303;&#x7684;&#x3002;</p>
 
                                 
                                 </section>
@@ -696,7 +742,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Basic Blocks","level":"1.4.5","depth":2,"next":{"title":"[Debug Information]","level":"1.4.6","depth":2,"ref":"","articles":[]},"previous":{"title":"Functions","level":"1.4.4","depth":2,"path":"src/Functions.md","ref":"src/Functions.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/BasicBlocks.md","mtime":"2020-08-24T11:43:27.422Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-26T13:22:49.897Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Basic Blocks","level":"1.4.5","depth":2,"next":{"title":"[Debug Information]","level":"1.4.6","depth":2,"ref":"","articles":[]},"previous":{"title":"Functions","level":"1.4.4","depth":2,"path":"src/Functions.md","ref":"src/Functions.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"license":"cc by nc sa 4.0","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Minhao Hsu","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"SIL中文手册","language":"zh","structure.glossary":"GLOSSARY.md","gitbook":"*","description":"Swift中间IR语言中文手册"},"file":{"path":"src/BasicBlocks.md","mtime":"2020-08-28T08:30:12.343Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-16T05:23:55.145Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

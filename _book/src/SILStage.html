@@ -1,14 +1,14 @@
 
 <!DOCTYPE HTML>
-<html lang="" >
+<html lang="zh" >
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>SIL Stage · GitBook</title>
+        <title>SIL Stage · SIL中文手册</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
-        
+        <meta name="author" content="Minhao Hsu">
         
         
     
@@ -71,7 +71,7 @@
         
             
 <div id="book-search-input" role="search">
-    <input type="text" placeholder="Type to search" />
+    <input type="text" placeholder="輸入並搜尋" />
 </div>
 
             
@@ -278,27 +278,27 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4.8" >
+        <li class="chapter " data-level="1.4.8" data-path="Linkage.html">
             
-                <span>
+                <a href="Linkage.html">
             
                     
-                    [Linkage]
+                    Linkage
             
-                </span>
+                </a>
             
 
             
         </li>
     
-        <li class="chapter " data-level="1.4.9" >
+        <li class="chapter " data-level="1.4.9" data-path="VTable.html">
             
-                <span>
+                <a href="VTable.html">
             
                     
-                    [VTables]
+                    VTables
             
-                </span>
+                </a>
             
 
             
@@ -620,7 +620,7 @@
 
     <li>
         <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
-            Published with GitBook
+            本書使用 GitBook 釋出
         </a>
     </li>
 </ul>
@@ -666,12 +666,12 @@ sil-stage-decl ::= &apos;sil_stage&apos; sil-stage
 sil-stage ::= &apos;raw&apos;
 sil-stage ::= &apos;canonical&apos;
 </code></pre><p>&#x5BF9;&#x4E8E;&#x4E0D;&#x540C;&#x7684;&#x7F16;&#x8BD1;&#x9636;&#x6BB5;&#xFF0C;&#x5BF9;&#x5E94;&#x4E86;&#x4E0D;&#x540C;&#x7684;SIL&#x7684;&#x5177;&#x4F53;&#x5F62;&#x5F0F;&#xFF0C;&#x6216;&#x8005;&#x8BF4;&#x53D8;&#x4F53;&#x7684;&#x7248;&#x672C;&#x3002;
-&#x4E3B;&#x8981;&#x6709;&#x4E24;&#x4E2A;&#x9636;&#x6BB5;&#x548C;&#x5F62;&#x5F0F;&#xFF0C;&#x540C;&#x4E00;&#x4E2A;SIL&#x6587;&#x4EF6;&#x53EA;&#x5B58;&#x5728;&#x4E00;&#x79CD;&#x5F62;&#x5F0F;&#xFF1A;</p>
+&#x4E3B;&#x8981;&#x6709;&#x4E24;&#x4E2A;&#x9636;&#x6BB5;&#x548C;&#x5F62;&#x5F0F;&#xFF0C;&#x4E00;&#x4E2A;SIL&#x6587;&#x4EF6;&#x7684;&#x4E24;&#x4E2A;&#x9636;&#x6BB5;&#x4E92;&#x65A5;&#xFF1A;</p>
 <ul>
-<li><strong>Raw SIL</strong> &#x8FD9;&#x79CD;&#x5F62;&#x5F0F;&#x662F;&#x7531;SILGen&#x751F;&#x6210;&#xFF0C;&#x4F46;&#x8FD8;&#x672A;&#x901A;&#x8FC7;guaranteed optimizations&#x548C;diagnostic passes&#x5904;&#x7406;&#x4E4B;&#x524D;&#x7684;SIL&#x4EE3;&#x7801;&#x3002; &#x8FD9;&#x65F6;&#x5019;&#x7684;Raw SIL&#x53EF;&#x80FD;&#x8FD8;&#x672A;&#x5B8C;&#x5168;&#x6784;&#x9020;&#x6210;SSA&#x56FE;&#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x5176;&#x6570;&#x636E;&#x6D41;&#x53EF;&#x80FD;&#x5B58;&#x5728;errors&#x3002;&#x4E00;&#x4E9B;&#x6307;&#x4EE4;&#x4E5F;&#x662F;&#x4E34;&#x65F6;&#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x6B63;&#x5F0F;canonical&#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x4F8B;&#x5982;&#xFF0C;non-address-only&#x7C7B;&#x578B;&#xFF08;&#x89C1;&#x4E0B;&#x6587;&#xFF09;&#x7684;assign&#x548C;destroy_addr&#x6307;&#x4EE4;&#x7B49;&#x3002;</li>
+<li><strong>Raw SIL</strong> &#x8FD9;&#x79CD;&#x5F62;&#x5F0F;&#x662F;&#x7531;SILGen&#x751F;&#x6210;&#xFF0C;&#x4F46;&#x8FD8;&#x672A;&#x901A;&#x8FC7;guaranteed optimizations&#x548C;diagnostic passes&#x5904;&#x7406;&#x4E4B;&#x524D;&#x7684;SIL&#x4EE3;&#x7801;&#x3002; &#x8FD9;&#x65F6;&#x5019;&#x7684;Raw SIL&#x53EF;&#x80FD;&#x8FD8;&#x672A;&#x5B8C;&#x5168;&#x6784;&#x9020;&#x6210;SSA&#x56FE;&#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x5176;&#x6570;&#x636E;&#x6D41;&#x53EF;&#x80FD;&#x5B58;&#x5728;errors&#x3002;&#x4E00;&#x4E9B;&#x6307;&#x4EE4;&#x80AF;&#x8DDF;&#x8FD8;&#x4E0D;&#x662F;canonical&#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x4F8B;&#x5982;&#xFF0C;non-address-only&#x7C7B;&#x578B;&#x7684;assign&#x548C;destroy_addr&#x6307;&#x4EE4;&#x7B49;&#x3002;</li>
 </ul>
 <ul>
-<li><strong>Canonical SIL</strong> &#x662F;&#x7ECF;&#x8FC7;guaranteed optimizations&#x548C;diagnostic passes&#x5904;&#x7406;&#x4E4B;&#x540E;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x6B64;&#x65F6;&#x6570;&#x636E;&#x6D41;&#x4E2D;&#x7684;&#x9519;&#x8BEF;&#x5DF2;&#x7ECF;&#x6D88;&#x9664;&#xFF0C;&#x90E8;&#x5206;&#x4E34;&#x65F6;&#x7684;&#x6307;&#x4EE4;&#x4E5F;&#x7ECF;&#x8FC7;&#x5904;&#x7406;&#x53D8;&#x6210;&#x4E86;&#x6B63;&#x5F0F;&#x6307;&#x4EE4;&#x5F62;&#x5F0F;&#x3002;&#x57FA;&#x4E8E;Canonical SIL &#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x6027;&#x80FD;&#x4F18;&#x5316;&#x5E76;&#x751F;&#x6210;&#x6700;&#x7EC8;&#x7684;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x5176;&#x4E5F;&#x53EF;&#x4EE5;&#x4F5C;&#x4E3A;&#x7EC4;&#x4EF6;&#x6A21;&#x5757;&#x5206;&#x53D1;&#x7684;&#x4E00;&#x79CD;&#x683C;&#x5F0F;&#x3002;</li>
+<li><strong>Canonical SIL</strong> &#x662F;&#x7ECF;&#x8FC7;guaranteed optimizations&#x548C;diagnostic passes&#x5904;&#x7406;&#x4E4B;&#x540E;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x6B64;&#x65F6;&#x6570;&#x636E;&#x6D41;&#x4E2D;&#x7684;errors&#x5DF2;&#x7ECF;&#x6D88;&#x9664;&#xFF0C;&#x7279;&#x5B9A;&#x7684;&#x6307;&#x4EE4;&#x4E5F;&#x5904;&#x7406;&#x6210;&#x4E86;Canonical&#x7684;&#x7B80;&#x5316;&#x5F62;&#x5F0F;&#x3002;&#x57FA;&#x4E8E;Canonical SIL &#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x6027;&#x80FD;&#x4F18;&#x5316;&#x5E76;&#x751F;&#x6210;&#x6700;&#x7EC8;&#x7684;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x5176;&#x4E5F;&#x53EF;&#x4EE5;&#x4F5C;&#x4E3A;&#x7EC4;&#x4EF6;&#x6A21;&#x5757;&#x5206;&#x53D1;&#x7684;&#x4E00;&#x79CD;&#x683C;&#x5F0F;&#x3002;</li>
 </ul>
 
                                 
@@ -716,7 +716,7 @@ sil-stage ::= &apos;canonical&apos;
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"SIL Stage","level":"1.4.1","depth":2,"next":{"title":"SIL Types","level":"1.4.2","depth":2,"path":"src/types/SILTypes.md","ref":"src/types/SILTypes.md","articles":[]},"previous":{"title":"0x2 Syntax","level":"1.4","depth":1,"path":"src/Syntax.md","ref":"src/Syntax.md","articles":[{"title":"SIL Stage","level":"1.4.1","depth":2,"path":"src/SILStage.md","ref":"src/SILStage.md","articles":[]},{"title":"SIL Types","level":"1.4.2","depth":2,"path":"src/types/SILTypes.md","ref":"src/types/SILTypes.md","articles":[]},{"title":"Values and Operands","level":"1.4.3","depth":2,"path":"src/ValuesAndOperands.md","ref":"src/ValuesAndOperands.md","articles":[]},{"title":"Functions","level":"1.4.4","depth":2,"path":"src/Functions.md","ref":"src/Functions.md","articles":[]},{"title":"Basic Blocks","level":"1.4.5","depth":2,"path":"src/BasicBlocks.md","ref":"src/BasicBlocks.md","articles":[]},{"title":"[Debug Information]","level":"1.4.6","depth":2,"ref":"","articles":[]},{"title":"[Declaration References]","level":"1.4.7","depth":2,"ref":"","articles":[]},{"title":"[Linkage]","level":"1.4.8","depth":2,"ref":"","articles":[]},{"title":"[VTables]","level":"1.4.9","depth":2,"ref":"","articles":[]},{"title":"[Witness Tables]","level":"1.4.10","depth":2,"ref":"","articles":[]},{"title":"[Default Witness Tables]","level":"1.4.11","depth":2,"ref":"","articles":[]},{"title":"[Global Variables]","level":"1.4.12","depth":2,"ref":"","articles":[]},{"title":"[Differentiability Witnesses]","level":"1.4.13","depth":2,"ref":"","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/SILStage.md","mtime":"2020-08-19T06:49:29.414Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-26T13:22:49.897Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"SIL Stage","level":"1.4.1","depth":2,"next":{"title":"SIL Types","level":"1.4.2","depth":2,"path":"src/types/SILTypes.md","ref":"src/types/SILTypes.md","articles":[]},"previous":{"title":"0x2 Syntax","level":"1.4","depth":1,"path":"src/Syntax.md","ref":"src/Syntax.md","articles":[{"title":"SIL Stage","level":"1.4.1","depth":2,"path":"src/SILStage.md","ref":"src/SILStage.md","articles":[]},{"title":"SIL Types","level":"1.4.2","depth":2,"path":"src/types/SILTypes.md","ref":"src/types/SILTypes.md","articles":[]},{"title":"Values and Operands","level":"1.4.3","depth":2,"path":"src/ValuesAndOperands.md","ref":"src/ValuesAndOperands.md","articles":[]},{"title":"Functions","level":"1.4.4","depth":2,"path":"src/Functions.md","ref":"src/Functions.md","articles":[]},{"title":"Basic Blocks","level":"1.4.5","depth":2,"path":"src/BasicBlocks.md","ref":"src/BasicBlocks.md","articles":[]},{"title":"[Debug Information]","level":"1.4.6","depth":2,"ref":"","articles":[]},{"title":"[Declaration References]","level":"1.4.7","depth":2,"ref":"","articles":[]},{"title":"Linkage","level":"1.4.8","depth":2,"path":"src/Linkage.md","ref":"src/Linkage.md","articles":[]},{"title":"VTables","level":"1.4.9","depth":2,"path":"src/VTable.md","ref":"src/VTable.md","articles":[]},{"title":"[Witness Tables]","level":"1.4.10","depth":2,"ref":"","articles":[]},{"title":"[Default Witness Tables]","level":"1.4.11","depth":2,"ref":"","articles":[]},{"title":"[Global Variables]","level":"1.4.12","depth":2,"ref":"","articles":[]},{"title":"[Differentiability Witnesses]","level":"1.4.13","depth":2,"ref":"","articles":[]}]},"dir":"ltr"},"config":{"plugins":["livereload"],"license":"cc by nc sa 4.0","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Minhao Hsu","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"SIL中文手册","language":"zh","structure.glossary":"GLOSSARY.md","gitbook":"*","description":"Swift中间IR语言中文手册"},"file":{"path":"src/SILStage.md","mtime":"2020-09-16T09:04:40.638Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-16T05:23:55.145Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
