@@ -55,7 +55,7 @@ sil_vtable C {
 
 可以注意到派生类C的A.bar是从派生类B继承而来的，因此vtable传递遵循最近可见性原则。Swift AST维护了这些覆写关系，从而可以查找派生类的覆写方法。
 
-如果SIL函数是一个thunk函数的话，那么会根据函数的名字进行处理以找到链接的原始实现函数。
+如果SIL函数是一个thunk函数的话，那么会根据函数名在原函数实现的链接描述之前。
 
 # Witness Tables
 ```
@@ -64,10 +64,9 @@ sil-witness-table ::= 'sil_witness_table' sil-linkage?
                       normal-protocol-conformance '{' sil-witness-entry* '}'
 ```
 
-SIL把泛型动态派发所需要的信息编码进WitnessTable。在生成二进制代码的时候，用这些信息来生成运行时方法派发表。这些信息也会被用于SIL优化，例如泛型函数特化。协议的每个显式声明遵循它的实例都会生成一个WitnessTable。泛型类型的所有实例会共享同一个泛型WitnessTable。派生类会从基类继承WitnessTable。
+SIL把泛型动态派发所需要的信息编码进WitnessTable。在生成二进制代码的时候，用这些信息来生成运行时方法派发表。这些信息也会被用于SIL优化，例如泛型函数特化。协议的每个显式声明的遵循（conformance）都会生成一个WitnessTable。泛型类型的所有实例会共享同一个泛型WitnessTable。派生类会从基类继承WitnessTable。
 
 
-/// conformance, 对协议的遵循，比如 protocol witness for IGreeting.sayBye(_:) in conformance ClassB
 
 
 ```
@@ -79,15 +78,16 @@ protocol-conformance ::= 'dependent'
 normal-protocol-conformance ::= identifier ':' identifier 'module' identifier
 ```
 
-每个protocol conformance都会对应一个VitnessTable并且给它一个唯一标示的键。
+Protocol conformance是某具体类型对协议的具体遵循，它具有唯一标示性，并用来作为WitnessTable的键。
 
--  一个normal protocol conformance描述了其(潜在的未绑定泛型unbound generic)类型，它所遵循的协议，以及所属模块。从而源码里的protocol confromance声明能一一对应上。
+-  一个normal protocol conformance描述了其(潜在的未绑定泛型unbound generic)类型，它所遵循的协议，以及其类型，扩展声明该conformance所属的模块。从而源码里的protocol conformance声明能一一对应上。
 -  如果基类遵循了某协议，那么派生类将通过一个inherited protocol conformance继承，它只是简单地引用了基类的protocol conformance。
 -  如果一个泛型的实例遵循了某协议，那么会得到一个specialized conformance，它可以给normal conformance绑定泛型参数的。
 
 
 ```
-// FYI： witness table for unbound generic conformance
+// FYI
+如下为 witness table for unbound generic conformance 
 sil_witness_table hidden <M> C<M>: Greeting module wt3 {
   associated_type T: M
   method #Greeting.sayHi!1: <Self where Self : Greeting> (Self) -> (Self.T) -> () : @$s3wt31CCyxGAA8GreetingA2aEP5sayHiyy1TQzFTW	// protocol witness for Greeting.sayHi(_:) in conformance C<A>
@@ -95,7 +95,7 @@ sil_witness_table hidden <M> C<M>: Greeting module wt3 {
 }
 ```
 
-Witness tables只和normal conformance直接关联。Inherited 和 specialized conformances都是间接地引用normal conformance的witness table。
+Witness tables只和normal conformance直接关联。Inherited 和 specialized conformances都是间接地引用对应的normal conformance的witness table。
 
 ```
 sil-witness-entry ::= 'base_protocol' identifier ':' protocol-conformance
@@ -121,12 +121,18 @@ sil-default-witness-table ::= 'sil_default_witness_table'
 minimum-witness-table-size ::= integer
 ```
 
-SIL在default witness table里编码里弹性(默认实现是可选的)的默认实现。
+SIL在default witness table里编码了用弹性实现的协议条款（requirements）。
 如果满足以下条件的话，我们就说协议里的条款(requirement)有一个弹性的默认实现：
 - 该requirement具有一个默认实现
 - 该requirement要么是协议中的最后一个，要么其所有后续的requirement都具有弹性的默认实现
 
-requirement集合以及其默认的实现存储在protocol的元数据中。
+具有默认实现的requirements的集合存储在protocol的元数据中。
+
+```
+Requirements 协议条款
+就是protocol中声明的约束，包括可选部分和必选部分。
+具体还可分为，方法，属性等。
+```
 
 minimum witness table size就是不包括任何弹性默认实现的witness table的尺寸。
 
@@ -135,14 +141,14 @@ default witness table的实际尺寸等于 最小尺寸 + 默认requirements的�
 在加载的时候，如果运行时发现witness table的尺寸达不到最大尺寸（也就是说缺少部分requirement），那么会拷贝一份新的witness table，并从default witness把缺失的部分填充拷贝填充进来。这就保证了调用者在witness table中总是可以找到预期数量的requirement。并且framework的作者可以添加新的requirements，而不用打断客户端的代码执行，前提是新的requirements也有弹性的默认实现。
 
 
-Default witness table是协议自身来标示的。只有具有public可见性的协议需要default witness table。private和internal协议不会被模块外可见，因此添加新的requirement不会有弹性的问题。
+Default witness table是由协议自身来标示的。只有具有public可见性的协议需要default witness table。private和internal协议不会被模块外可见，因此添加新的requirement不会有弹性的问题。
 
 ```
 sil-default-witness-entry ::= 'method' sil-decl-ref ':' sil-function-name
 ```
 
 Default witness tables目前只包含一种entry：
-    - Method entries，把协议的方法requirement映射到一个SIL函数，该函数实现了对所有witness类型都能匹配的方法。
+    - Method entries，把协议的方法requirement映射到一个SIL函数，该函数实现了对所有witness类型都能匹配的方式。
 
 
 
@@ -158,7 +164,7 @@ sil-global-variable ::= 'sil_global' sil-linkage identifier ':' sil-type
 
 SIL可以表示全局变量，通过alloc_global, global_addr 和 global_value指令进行访问。
 
-全局变量可以有一个静态初始化器（initializer），但要求它的初始值由字面量(literals)组成。初始化方法用字面量列表和聚合指令来表示，其中最后一条指令是静态initializer的顶层值（top-level value）:
+全局变量可以有一个静态初始化器（initializer），但要求它的初始值由字面量(literals)组成。初始化方法用字面量列表和聚合指令来表示，后者的最后一条指令是静态initializer的顶层值（top-level value）:
 
 ```
 sil_global hidden @$S4test3varSiv : $Int {
@@ -173,4 +179,6 @@ sil_global hidden @$S4test3varSiv : $Int {
 
 
 ## Differentiability Witnesses
-可微分witness，特定场景才用得到，不翻译了。
+```
+FYI 可微分witness，特定场景才用得到，不翻译了。
+```
