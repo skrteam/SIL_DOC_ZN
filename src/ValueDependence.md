@@ -1,6 +1,6 @@
 # 0x9 Value Dependence
 
-一般分析会假定独立的值的有效性是其独立保证的。
+总的来说，分析器可以假定独立的值独立保证其值的有效性。
 比如以下的例子，一个类方法返回一个类引用：
 
 ```
@@ -12,7 +12,7 @@ bb0(%0 : $MyClass):
   strong_release %1 : $MyClass
 ```
 
-优化器可以把strong_release %1这一行移动到函数调用之后(apply)，因为编译器认为%2是独立管理的值，并且Swift一般是允许调整解构顺序的。
+优化器可以把strong_release %1这一行移动到函数apply之后，因为编译器认为%2是独立管理的值，并且Swift一般是允许调整解构顺序的。
 
 有一些指令的执行会创建操作数之间的依赖关系。
 比如，如果获取一个结合类型的对象内部元素的指针，而这个集合对象在指针放阿文钱释放里，那么就会出现野指针。
@@ -45,7 +45,7 @@ bb0(%0 : $MyClass):
 - 对函数内部SIL指令的依赖关系分析是必要的。
 - 对于SILGen(用mark_dependence指令是否合理)和用户（是否合理地使用了unsafe语言提供的一些属性或者库的特性）是否生成了合适的依赖关系，需要特别注意。
 
-只有特定的SIL Value可以携带 值依赖关系的信息：
+只有特定的SIL Value可以携带值依赖关系的信息：
 - SIL address types
 - unmanaged pointer types:
   - @sil_unmanaged types

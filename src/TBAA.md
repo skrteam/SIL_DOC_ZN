@@ -27,7 +27,7 @@ Swift是一个内存安全、静态类型的语言，所以Class的别名必须�
 
 除了个别例外，对没有绑定到对应类型的地址或引用进行类型化访问，程序行为是未知的。
 
-由此，优化器可以推断，对于两个Address，如果找不到一个archetype进行替换，使得替换后的两个类型T1，T2能满足T1正好是T2的子对象的类型，那么这两个Address也不能alias。
+由此，优化器可以推断，对于两个Address，如果找不到一个archetype进行替换，使得替换后的两个类型T1，T2能满足T1正好是T2的子对象（？？ 没理解 怀疑写错了）的类型，那么这两个Address也不能alias。
 （This allows the optimizer to assume that two addresses cannot alias if there does not exist a substitution of archetypes that could cause one of the types to be the type of a subobject of the other. ）
 以上规则同样适用于从类型化投影（typed projection）获得的值的类型。
 
