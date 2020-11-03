@@ -4,7 +4,7 @@
 
 Swift调用约定（Calling Convention）是Swift原生函数使用的。
 
-函数输入类型里的tuple会被递归地解构成分离的实参。该过程发生在basicblock的入口处，或者在调用者使用apply指令的时候:
+函数输入类型里的tuple会被递归地解构成分开的实参。该过程发生在basicblock的入口处，或者在调用者使用apply指令的时候:
 
 ```
 func foo(_ x:Int, y:Int)
@@ -62,9 +62,12 @@ foo(x, y)
 引用类型的实参在传递的时候会被retain +1，由callee进行consume。 引用类型的返回值在return的时候会+1，由caller进行consume。
 具有一些引用类型所构成的值类型，会和其成员引用类型一起retain和release。
 
-/// FYI consumed parameters
-/// consume就是负责进行reference count
-/// https://clang.llvm.org/docs/AutomaticReferenceCounting.html#consumed-parameters
+
+```
+FYI consumed parameters
+A function or method parameter of retainable object pointer type may be marked as consumed, signifying that the callee expects to take ownership of a +1 retain count. 
+ref: https://clang.llvm.org/docs/AutomaticReferenceCounting.html#consumed-parameters
+```
 
 
 ```
@@ -85,8 +88,13 @@ strong_retain %x : $A
 strong_release %z_1
 ```
 
-当callee是一个thunk函数时，函数值也会被thunk consume，并且retain +1。
+当callee apply一个thunk函数时，该函数作为值也会被consume，即retain +1。
 
+```
+FYI
+apply/application 
+在当前语境是FP中的概念，即实参绑定到函数上下文并调用。
+```
 
 ## Address-Only Types
 
@@ -118,7 +126,7 @@ dealloc_stack stack %z : $*A
 
 @bas的实现负责consume %x_arg，并且初始化%z。
 
-Tuple类型是实参会被拆解，而忽略tuple类型是不是address-only的。其拆解出来的多个field会根据上述调用约定被独立地传递。如下：
+Tuple类型会被析构，并忽略tuple类型是否是address-only-ness。析构的多个field会根据上述调用约定被独立地传递。如下：
 
 ```
 @API struct A {}
@@ -167,15 +175,17 @@ apply %zang(%x, %y, %zs, %v, %ws)  : $(x:Int, (y:Int, z:Int...), v:Int, w:Int...
 ## @inout Arguments
 
 @inout实参通过地址传递 在到函数的入口处。callee不会接管引用内存的ownership。在函数入和退出时，其引用内存必须是已初始化的状态。
-如果@inout实参引用里一个fragile physical变量，那么这个实参是这个变量的地址。
-如果@inout实参引用的是一个逻辑属性，那么这个实参是caller-owned 的可回写的buffer的地址。这时caller负责通过在调用函数之前存储属性getter的结果来初始化buffer，并在return时通过从buffer load
-并用最终值调用setter来写回属性。
+如果@inout实参引用一个fragile physical变量，那么这个实参是这个变量的地址。
+如果@inout实参引用的是一个逻辑属性，那么这个实参是caller-owned 的可回写的buffer的地址。这时caller负责在调用函数之前属性的getter，并用getter的结果写入并初始化buffer；在return时从buffer中load出值，并用最终值调用setter来写回属性。
 
-/// FYI： fragile physical 变量
-///   In-Out 参数传递有两种方式：
-///     copy-in copy-out 和 call-by-referernce
-///     其中后者为优化，可省略copy过程
-/// ref： https://docs.swift.org/swift-book/ReferenceManual/Declarations.html
+```
+FYI  fragile physical 变量
+In-Out 参数传递有两种方式：
+  copy-in copy-out 和 call-by-referernce
+  其中后者为优化，可省略copy过程
+ref： https://docs.swift.org/swift-book/ReferenceManual/Declarations.html
+```
+
 
 Swift代码如下：
 ```
@@ -196,7 +206,7 @@ entry(%x : $*Int):
 
 ## Swift Method Calling Convention @convention(method)
 
-当前，方法调用约定与单独（freestanding）参数函数的调用约定相同。方法都柯里化（Curried
+当前，方法调用约定与单个（freestanding）参数函数的调用约定相同。可以认为方法都柯里化（Curried
 ）了，最外层的是self参数，其他方法参数在内层。
 因此，self参数在最后传递：
 
@@ -211,7 +221,7 @@ sil @Foo_method_1 : $((x : Int), @inout Foo) -> Int { ... }
 
 ## Witness Method Calling Convention @convention(witness_method)
 
-Witness方法调用是指WitnessTable里的协议方法。它与方法调用约定相同，不同之处在于它对泛型类型参数的处理。对于non-witness方法，在machine层面传递类型参数元数据的约定可能仅依赖于函数签名的静态部分就够了，但因为witness必须支持对self类型的多态派发，因此传递与Self相关的元数据必须以尽可能抽象的方式。
+Witness方法调用是指WitnessTable里的协议方法。它与方法调用约定相同，不同之处在于它对泛型类型参数的处理。对于non-witness方法，在machine层面关于传递类型形参的元数据的约定可能仅依赖于函数签名的静态部分，但因为witness必须支持对self类型的多态派发，因此传递与Self相关的元数据必须以尽可能抽象的方式。
 
 
 ## C Calling Convention @convention(c)
@@ -224,9 +234,9 @@ Witness方法调用是指WitnessTable里的协议方法。它与方法调用约�
 
 ### Reference Counts
 
-Objective-C方法使用与ARC Objective-C相同的参数和返回值ownership规则。Selector以及Objective-C定义的ns_consumed，ns_returns_retained等属性也都支持。
+Objective-C方法使用与ARC Objective-C相同的实参和返回值ownership规则。Selector以及Objective-C定义的ns_consumed，ns_returns_retained等属性也都支持。
 
-对@convention(block)值进行apply调用，并不会consume这个block。
+apply @convention(block) 的值，并不会consume这个block。
 
 ### Method Currying
  
