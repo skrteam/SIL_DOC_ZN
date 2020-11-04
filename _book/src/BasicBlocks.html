@@ -656,7 +656,7 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="basic-blocks">Basic Blocks</h1>
+                                <h2 id="basic-blocks">Basic Blocks</h2>
 <pre><code>sil-basic-block ::= sil-label sil-instruction-def* sil-terminator
 sil-label ::= sil-identifier (&apos;(&apos; sil-argument (&apos;,&apos; sil-argument)* &apos;)&apos;)? &apos;:&apos;
 sil-value-ownership-kind ::= @owned
@@ -671,8 +671,8 @@ sil-instruction-def ::=
   (sil-instruction-result &apos;=&apos;)? sil-instruction sil-instruction-source-info
 </code></pre><p>&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x7684;body&#x5305;&#x542B;&#x81F3;&#x5C11;&#x4E00;&#x4E2A;basic block,bb&#x7684;&#x6570;&#x91CF;&#x662F;&#x7531;&#x51FD;&#x6570;&#x7684;CFG(control-flow-graph)&#x7684;&#x8282;&#x70B9;&#x6570;&#x51B3;&#x5B9A;&#x7684;&#x3002;
 &#x6BCF;&#x4E2A;BB&#x5305;&#x542B;&#x81F3;&#x5C11;&#x4E00;&#x6761;&#x6307;&#x4EE4;&#xFF0C;&#x5E76;&#x4E14;&#x4EE5;&#x4E00;&#x6761;terminator&#x6307;&#x4EE4;&#x7ED3;&#x675F;&#x3002;
-&#x51FD;&#x6570;&#x5165;&#x53E3;&#x603B;&#x662F;&#x5B83;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;BB&#x3002;</p>
-<p>BB&#x91CC;&#x5305;&#x542B;&#x4E86;&#x53C2;&#x6570;&#xFF0C;&#x8FD9;&#x7C7B;&#x4F3C;&#x4E8E;LLVM&#x7684;phi&#x8282;&#x70B9;&#x3002;BB&#x7684;&#x53C2;&#x6570;&#x4E0E;&#x524D;&#x5E8F;BB&#x5230;&#x5F53;&#x524D;BB&#x7684;branch&#x8DEF;&#x5F84;&#x6709;&#x5173;&#x3002;</p>
+&#x51FD;&#x6570;&#x5165;&#x53E3;&#x603B;&#x662F;&#x5176;&#x51FD;&#x6570;&#x4F53;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;BB&#x3002;</p>
+<p>SIL&#x4E2D;&#xFF0C;BB&#x91CC;&#x5305;&#x542B;&#x4E86;&#x53C2;&#x6570;&#xFF0C;&#x8FD9;&#x7C7B;&#x4F3C;&#x4E8E;LLVM&#x7684;phi&#x8282;&#x70B9;&#x3002;BB&#x7684;&#x5B9E;&#x53C2;&#x7531;&#x5176;&#x5206;&#x652F;&#x7684;&#x524D;&#x5E8F;bb&#x8FDB;&#x884C;&#x7ED1;&#x5B9A;&#x3002;</p>
 <pre><code>sil @iif : $(Builtin.Int1, Builtin.Int64, Builtin.Int64) -&gt; Builtin.Int64 {
 bb0(%cond : $Builtin.Int1, %ifTrue : $Builtin.Int64, %ifFalse : $Builtin.Int64):
   cond_br %cond : $Builtin.Int1, then, else
@@ -683,7 +683,7 @@ else:
 finish(%result : $Builtin.Int64):
   return %result : $Builtin.Int64
 }
-</code></pre><p>&#x5982;&#x679C;&#x5F53;&#x524D;BB&#x6CA1;&#x6709;&#x524D;&#x5E8F;&#x7684;BB&#xFF0C;&#x90A3;&#x4E48;&#x5B83;&#x7684;&#x53C2;&#x6570;&#x6765;&#x81EA;&#x8C03;&#x7528;&#x8005;&#xFF1A;</p>
+</code></pre><p>&#x5982;&#x679C;&#x5F53;&#x524D;BB&#x6CA1;&#x6709;&#x524D;&#x5E8F;&#x7684;BB&#xFF0C;&#x90A3;&#x4E48;&#x5B83;&#x7684;&#x5B9E;&#x53C2;&#x7531;&#x8C03;&#x7528;&#x8005;&#x7ED1;&#x5B9A;&#xFF1A;</p>
 <pre><code>sil @foo : $@convention(thin) (Int) -&gt; Int {
 bb0(%x : $Int):
   return %x : $Int
@@ -703,6 +703,56 @@ bb0(%x : $Int, %y : @owned $String, %z : @guaranteed $String, %w : @unowned $Str
   ...
 }
 </code></pre><p>&#x6CE8;&#x610F;&#xFF0C;&#x4EE5;&#x4E0A;&#x4EE3;&#x7801;&#x91CC;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;%x&#x62E5;&#x6709;&#x4E00;&#x4E2A;&#x9690;&#x5F0F;&#x7684;@none ownership&#x8BED;&#x4E49;&#xFF0C;&#x8FD9;&#x662F;&#x7531;&#x4E8E;Int&#x5C5E;&#x4E8E;trivial type&#xFF0C;&#x9ED8;&#x8BA4;&#x662F;none&#xFF0C;&#x662F;&#x7B26;&#x5408;&#x89C4;&#x8303;&#x7684;&#x3002;</p>
+<h2 id="debug-information">Debug Information</h2>
+<pre><code>sil-scope-ref ::= &apos;scope&apos; [0-9]+
+sil-scope ::= &apos;sil_scope&apos; [0-9]+ &apos;{&apos;
+                 sil-loc
+                 &apos;parent&apos; scope-parent
+                 (&apos;inlined_at&apos; sil-scope-ref)?
+              &apos;}&apos;
+scope-parent ::= sil-function-name &apos;:&apos; sil-type
+scope-parent ::= sil-scope-ref
+sil-loc ::= &apos;loc&apos; string-literal &apos;:&apos; [0-9]+ &apos;:&apos; [0-9]+
+</code></pre><p>&#x6BCF;&#x6761;&#x6307;&#x4EE4;&#x90FD;&#x53EF;&#x6709;&#x4E00;&#x4E2A;debug&#x7684;&#x4F4D;&#x7F6E;&#x4FE1;&#x606F;&#x548C;&#x4E00;&#x4E2A;SIL scope&#x5F15;&#x7528;&#x4FE1;&#x606F;&#x5728;&#x6700;&#x540E;&#x3002;Debug&#x7684;&#x4F4D;&#x7F6E;&#x4FE1;&#x606F;&#x5305;&#x62EC;&#x4E86;&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x884C;&#x53F7;&#xFF0C;&#x5217;&#x53F7;&#x3002;&#x5982;&#x679C;debug&#x4F4D;&#x7F6E;&#x4FE1;&#x606F;&#x662F;&#x81EA;&#x52A8;&#x8F93;&#x51FA;&#x7684;&#xFF0C;&#x90A3;&#x4E48;&#x5B83;&#x7684;&#x9ED8;&#x8BA4;&#x4F4D;&#x7F6E;&#x662F;SIL&#x6E90;&#x6587;&#x4EF6;&#x3002;SIL Scope&#x4FE1;&#x606F;&#x63CF;&#x8FF0;&#x4E86;&#x751F;&#x6210;SIL&#x6307;&#x4EE4;&#x7684;Swift&#x8868;&#x8FBE;&#x5F0F;&#x6700;&#x521D;&#x5728;&#x8BCD;&#x6CD5;scope&#x7ED3;&#x6784;&#x5185;&#x7684;&#x4F4D;&#x7F6E;&#x3002;SIL scopes&#x540C;&#x65F6;&#x4FDD;&#x7559;&#x4E86;inline&#x7684;&#x4FE1;&#x606F;.</p>
+<h2 id="declaration-references">Declaration References</h2>
+<pre><code>sil-decl-ref ::= &apos;#&apos; sil-identifier (&apos;.&apos; sil-identifier)* sil-decl-subref?
+sil-decl-subref ::= &apos;!&apos; sil-decl-subref-part (&apos;.&apos; sil-decl-lang)? (&apos;.&apos; sil-decl-autodiff)?
+sil-decl-subref ::= &apos;!&apos; sil-decl-lang
+sil-decl-subref ::= &apos;!&apos; sil-decl-autodiff
+sil-decl-subref-part ::= &apos;getter&apos;
+sil-decl-subref-part ::= &apos;setter&apos;
+sil-decl-subref-part ::= &apos;allocator&apos;
+sil-decl-subref-part ::= &apos;initializer&apos;
+sil-decl-subref-part ::= &apos;enumelt&apos;
+sil-decl-subref-part ::= &apos;destroyer&apos;
+sil-decl-subref-part ::= &apos;deallocator&apos;
+sil-decl-subref-part ::= &apos;globalaccessor&apos;
+sil-decl-subref-part ::= &apos;ivardestroyer&apos;
+sil-decl-subref-part ::= &apos;ivarinitializer&apos;
+sil-decl-subref-part ::= &apos;defaultarg&apos; &apos;.&apos; [0-9]+
+sil-decl-lang ::= &apos;foreign&apos;
+sil-decl-autodiff ::= sil-decl-autodiff-kind &apos;.&apos; sil-decl-autodiff-indices
+sil-decl-autodiff-kind ::= &apos;jvp&apos;
+sil-decl-autodiff-kind ::= &apos;vjp&apos;
+sil-decl-autodiff-indices ::= [SU]+
+</code></pre><p>&#x6709;&#x4E9B;SIL&#x6307;&#x4EE4;&#x9700;&#x8981;&#x76F4;&#x63A5;&#x5F15;&#x7528;&#x4E00;&#x4E9B;Swift&#x58F0;&#x660E;&#x3002;&#x8FD9;&#x4E9B;&#x5F15;&#x7528;&#x4EE5;#&#x7B26;&#x53F7;&#x5F00;&#x5934;&#xFF0C;&#x540E;&#x63A5;&#x9650;&#x5B9A;&#x7684;Swift&#x58F0;&#x660E;&#x7684;&#x540D;&#x79F0;&#x3002;&#x6709;&#x4E9B;Swift&#x58F0;&#x660E;&#x88AB;&#x62C6;&#x89E3;&#x6210;&#x4E0D;&#x540C;&#x7684;&#x5B9E;&#x4F53;&#xFF0C;&#x5206;&#x5E03;&#x5728;&#x4E0D;&#x540C;&#x7684;SIL level&#x4E0A;&#x3002; &#x5B83;&#x4EEC;&#x5177;&#x6709;&#x4EE5;&#x4E0B;&#x7279;&#x5F81;&#xFF1A;&#x9650;&#x5B9A;&#x540D;&#x79F0;&#x4EE5;&#xFF01;&#x5F00;&#x5934;&#xFF0C;&#x5E76;&#x4E14;&#x7528;&#x4E00;&#x5230;&#x591A;&#x4E2A;.&#x7B26;&#x53F7;&#x8FDB;&#x884C;&#x5B9E;&#x4F53;&#x5206;&#x5272;&#xFF1A;</p>
+<ul>
+<li>getter: the getter function for a var declaration</li>
+<li>setter: the setter function for a var declaration</li>
+<li>allocator: a struct or enum constructor, or a class&apos;s allocating constructor</li>
+<li>initializer: a class&apos;s initializing constructor</li>
+<li>enumelt: a member of a enum type.</li>
+<li><ul>
+<li>destroyer: a class&apos;s destroying destructor</li>
+</ul>
+</li>
+<li>deallocator: a class&apos;s deallocating destructor</li>
+<li>globalaccessor: the addressor function for a global variable</li>
+<li>ivardestroyer: a class&apos;s ivar destroyer</li>
+<li>ivarinitializer: a class&apos;s ivar initializer</li>
+<li>defaultarg.n: the default argument-generating function for the n-th argument of a Swift func</li>
+<li>foreign: a specific entry point for C/Objective-C interoperability</li>
+</ul>
 
                                 
                                 </section>
@@ -742,7 +792,7 @@ bb0(%x : $Int, %y : @owned $String, %z : @guaranteed $String, %w : @unowned $Str
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Basic Blocks","level":"1.4.5","depth":2,"next":{"title":"[Debug Information]","level":"1.4.6","depth":2,"ref":"","articles":[]},"previous":{"title":"Functions","level":"1.4.4","depth":2,"path":"src/Functions.md","ref":"src/Functions.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"license":"cc by nc sa 4.0","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Minhao Hsu","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"SIL中文手册","language":"zh","structure.glossary":"GLOSSARY.md","gitbook":"*","description":"Swift中间IR语言中文手册"},"file":{"path":"src/BasicBlocks.md","mtime":"2020-08-28T08:30:12.343Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-16T05:23:55.145Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Basic Blocks","level":"1.4.5","depth":2,"next":{"title":"[Debug Information]","level":"1.4.6","depth":2,"ref":"","articles":[]},"previous":{"title":"Functions","level":"1.4.4","depth":2,"path":"src/Functions.md","ref":"src/Functions.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"license":"cc by nc sa 4.0","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Minhao Hsu","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"SIL中文手册","language":"zh","structure.glossary":"GLOSSARY.md","gitbook":"*","description":"Swift中间IR语言中文手册"},"file":{"path":"src/BasicBlocks.md","mtime":"2020-11-03T06:43:03.295Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-11-04T03:19:37.460Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

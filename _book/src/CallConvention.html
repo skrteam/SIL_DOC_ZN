@@ -659,7 +659,7 @@
                                 <h1 id="0x7-calling-convention">0x7 Calling Convention</h1>
 <h2 id="swift-calling-convention-conventionswift">Swift Calling Convention @convention(swift)</h2>
 <p>Swift&#x8C03;&#x7528;&#x7EA6;&#x5B9A;&#xFF08;Calling Convention&#xFF09;&#x662F;Swift&#x539F;&#x751F;&#x51FD;&#x6570;&#x4F7F;&#x7528;&#x7684;&#x3002;</p>
-<p>&#x51FD;&#x6570;&#x8F93;&#x5165;&#x7C7B;&#x578B;&#x91CC;&#x7684;tuple&#x4F1A;&#x88AB;&#x9012;&#x5F52;&#x5730;&#x89E3;&#x6784;&#x6210;&#x5206;&#x79BB;&#x7684;&#x5B9E;&#x53C2;&#x3002;&#x8BE5;&#x8FC7;&#x7A0B;&#x53D1;&#x751F;&#x5728;basicblock&#x7684;&#x5165;&#x53E3;&#x5904;&#xFF0C;&#x6216;&#x8005;&#x5728;&#x8C03;&#x7528;&#x8005;&#x4F7F;&#x7528;apply&#x6307;&#x4EE4;&#x7684;&#x65F6;&#x5019;:</p>
+<p>&#x51FD;&#x6570;&#x8F93;&#x5165;&#x7C7B;&#x578B;&#x91CC;&#x7684;tuple&#x4F1A;&#x88AB;&#x9012;&#x5F52;&#x5730;&#x89E3;&#x6784;&#x6210;&#x5206;&#x5F00;&#x7684;&#x5B9E;&#x53C2;&#x3002;&#x8BE5;&#x8FC7;&#x7A0B;&#x53D1;&#x751F;&#x5728;basicblock&#x7684;&#x5165;&#x53E3;&#x5904;&#xFF0C;&#x6216;&#x8005;&#x5728;&#x8C03;&#x7528;&#x8005;&#x4F7F;&#x7528;apply&#x6307;&#x4EE4;&#x7684;&#x65F6;&#x5019;:</p>
 <pre><code>func foo(_ x:Int, y:Int)
 
 sil @foo : $(x:Int, y:Int) -&gt; () {
@@ -699,10 +699,10 @@ foo(x, y)
 <p>&#x6CE8;&#x610F;&#x26A0;&#xFE0F;&#x672C;&#x8282;&#x7684;&#x5185;&#x5BB9;&#x4EC5;&#x9488;&#x5BF9;&#x7ECF;&#x9A8C;&#x6CD5;&#x5219;&#x3002;&#x5B9E;&#x53C2;&#x7684;&#x5B9E;&#x9645;&#x884C;&#x4E3A;&#x662F;&#x7531;&#x5B9E;&#x53C2;&#x7684;&#x7EA6;&#x5B9A;&#x5C5E;&#x6027;&#xFF08;&#x4F8B;&#x5982;&#xFF0C;@ owned&#xFF09;&#x5B9A;&#x4E49;&#x7684;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x8C03;&#x7528;&#x7EA6;&#x5B9A;&#x672C;&#x8EAB;&#x3002;</p>
 <p>&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x7684;&#x5B9E;&#x53C2;&#x5728;&#x4F20;&#x9012;&#x7684;&#x65F6;&#x5019;&#x4F1A;&#x88AB;retain +1&#xFF0C;&#x7531;callee&#x8FDB;&#x884C;consume&#x3002; &#x5F15;&#x7528;&#x7C7B;&#x578B;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x5728;return&#x7684;&#x65F6;&#x5019;&#x4F1A;+1&#xFF0C;&#x7531;caller&#x8FDB;&#x884C;consume&#x3002;
 &#x5177;&#x6709;&#x4E00;&#x4E9B;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x6240;&#x6784;&#x6210;&#x7684;&#x503C;&#x7C7B;&#x578B;&#xFF0C;&#x4F1A;&#x548C;&#x5176;&#x6210;&#x5458;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x4E00;&#x8D77;retain&#x548C;release&#x3002;</p>
-<p>/// FYI consumed parameters
-/// consume&#x5C31;&#x662F;&#x8D1F;&#x8D23;&#x8FDB;&#x884C;reference count
-/// <a href="https://clang.llvm.org/docs/AutomaticReferenceCounting.html#consumed-parameters" target="_blank">https://clang.llvm.org/docs/AutomaticReferenceCounting.html#consumed-parameters</a></p>
-<pre><code>class A {}
+<pre><code>FYI consumed parameters
+A function or method parameter of retainable object pointer type may be marked as consumed, signifying that the callee expects to take ownership of a +1 retain count. 
+ref: https://clang.llvm.org/docs/AutomaticReferenceCounting.html#consumed-parameters
+</code></pre><pre><code>class A {}
 
 func bar(_ x:A) -&gt; (Int, A) { ... }
 
@@ -714,8 +714,11 @@ strong_retain %x : $A
 // ... use %z ...
 %z_1 = tuple_extract %z : $(Int, A), 1
 strong_release %z_1
-</code></pre><p>&#x5F53;callee&#x662F;&#x4E00;&#x4E2A;thunk&#x51FD;&#x6570;&#x65F6;&#xFF0C;&#x51FD;&#x6570;&#x503C;&#x4E5F;&#x4F1A;&#x88AB;thunk consume&#xFF0C;&#x5E76;&#x4E14;retain +1&#x3002;</p>
-<h2 id="address-only-types">Address-Only Types</h2>
+</code></pre><p>&#x5F53;callee apply&#x4E00;&#x4E2A;thunk&#x51FD;&#x6570;&#x65F6;&#xFF0C;&#x8BE5;&#x51FD;&#x6570;&#x4F5C;&#x4E3A;&#x503C;&#x4E5F;&#x4F1A;&#x88AB;consume&#xFF0C;&#x5373;retain +1&#x3002;</p>
+<pre><code>FYI
+apply/application 
+&#x5728;&#x5F53;&#x524D;&#x8BED;&#x5883;&#x662F;FP&#x4E2D;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x5373;&#x5B9E;&#x53C2;&#x7ED1;&#x5B9A;&#x5230;&#x51FD;&#x6570;&#x4E0A;&#x4E0B;&#x6587;&#x5E76;&#x8C03;&#x7528;&#x3002;
+</code></pre><h2 id="address-only-types">Address-Only Types</h2>
 <p>&#x5BF9;&#x4E8E;Address-Only&#x7C7B;&#x578B;&#x7684;&#x5B9E;&#x53C2;&#xFF0C;caller&#x4F1A;alloc&#x751F;&#x4EA7;&#x4E00;&#x4E2A;&#x62F7;&#x8D1D;&#x526F;&#x672C;&#x5E76;&#x4E14;&#x628A;&#x526F;&#x672C;&#x7684;&#x5730;&#x5740;&#x4F20;&#x9012;&#x7ED9;callee&#x3002;callee&#x63A5;&#x7BA1;&#x526F;&#x672C;&#x7684;ownership&#xFF0C;&#x5E76;&#x8D1F;&#x8D23;&#x5BF9;&#x5176;&#x9500;&#x6BC1;&#x6216;consume&#xFF0C;&#x800C;caller&#x4ECD;&#x7136;&#x8D1F;&#x8D23;dealloc&#x5BF9;&#x5E94;&#x7684;&#x5185;&#x5B58;&#x3002;
 &#x5BF9;&#x4E8E;Address-Only&#x7684;&#x8FD4;&#x56DE;&#x503C;&#xFF0C;caller alloc&#x4E00;&#x5757;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x5185;&#x5B58;&#x4F5C;&#x4E3A;buffer&#xFF0C;&#x5E76;&#x4E14;&#x628A;&#x8BE5;&#x5730;&#x5740;&#x4F5C;&#x4E3A;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x4F20;&#x9012;&#x4E2A;callee&#x3002;&#x800C;callee&#x5FC5;&#x987B;&#x5728;&#x8FD4;&#x56DE;&#x524D;&#x521D;&#x59CB;&#x5316;&#x8FD9;&#x5757;buffer&#x3002;&#x5982;&#x4E0B;&#xFF1A;</p>
 <pre><code> @API struct A {}
@@ -735,7 +738,7 @@ dealloc_stack %x_arg : $*A // callee consumes %x.arg, caller deallocs
 destroy_addr %z : $*A
 dealloc_stack stack %z : $*A
 </code></pre><p>@bas&#x7684;&#x5B9E;&#x73B0;&#x8D1F;&#x8D23;consume %x_arg&#xFF0C;&#x5E76;&#x4E14;&#x521D;&#x59CB;&#x5316;%z&#x3002;</p>
-<p>Tuple&#x7C7B;&#x578B;&#x662F;&#x5B9E;&#x53C2;&#x4F1A;&#x88AB;&#x62C6;&#x89E3;&#xFF0C;&#x800C;&#x5FFD;&#x7565;tuple&#x7C7B;&#x578B;&#x662F;&#x4E0D;&#x662F;address-only&#x7684;&#x3002;&#x5176;&#x62C6;&#x89E3;&#x51FA;&#x6765;&#x7684;&#x591A;&#x4E2A;field&#x4F1A;&#x6839;&#x636E;&#x4E0A;&#x8FF0;&#x8C03;&#x7528;&#x7EA6;&#x5B9A;&#x88AB;&#x72EC;&#x7ACB;&#x5730;&#x4F20;&#x9012;&#x3002;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>Tuple&#x7C7B;&#x578B;&#x4F1A;&#x88AB;&#x6790;&#x6784;&#xFF0C;&#x5E76;&#x5FFD;&#x7565;tuple&#x7C7B;&#x578B;&#x662F;&#x5426;&#x662F;address-only-ness&#x3002;&#x6790;&#x6784;&#x7684;&#x591A;&#x4E2A;field&#x4F1A;&#x6839;&#x636E;&#x4E0A;&#x8FF0;&#x8C03;&#x7528;&#x7EA6;&#x5B9A;&#x88AB;&#x72EC;&#x7ACB;&#x5730;&#x4F20;&#x9012;&#x3002;&#x5982;&#x4E0B;&#xFF1A;</p>
 <pre><code>@API struct A {}
 
 func zim(_ x:Int, y:A, (z:Int, w:(A, Int)))
@@ -765,15 +768,14 @@ zang(x, (y, z0, z1), v, w0, w1, w2)
 apply %zang(%x, %y, %zs, %v, %ws)  : $(x:Int, (y:Int, z:Int...), v:Int, w:Int...) -&gt; ()
 </code></pre><h2 id="inout-arguments">@inout Arguments</h2>
 <p>@inout&#x5B9E;&#x53C2;&#x901A;&#x8FC7;&#x5730;&#x5740;&#x4F20;&#x9012; &#x5728;&#x5230;&#x51FD;&#x6570;&#x7684;&#x5165;&#x53E3;&#x5904;&#x3002;callee&#x4E0D;&#x4F1A;&#x63A5;&#x7BA1;&#x5F15;&#x7528;&#x5185;&#x5B58;&#x7684;ownership&#x3002;&#x5728;&#x51FD;&#x6570;&#x5165;&#x548C;&#x9000;&#x51FA;&#x65F6;&#xFF0C;&#x5176;&#x5F15;&#x7528;&#x5185;&#x5B58;&#x5FC5;&#x987B;&#x662F;&#x5DF2;&#x521D;&#x59CB;&#x5316;&#x7684;&#x72B6;&#x6001;&#x3002;
-&#x5982;&#x679C;@inout&#x5B9E;&#x53C2;&#x5F15;&#x7528;&#x91CC;&#x4E00;&#x4E2A;fragile physical&#x53D8;&#x91CF;&#xFF0C;&#x90A3;&#x4E48;&#x8FD9;&#x4E2A;&#x5B9E;&#x53C2;&#x662F;&#x8FD9;&#x4E2A;&#x53D8;&#x91CF;&#x7684;&#x5730;&#x5740;&#x3002;
-&#x5982;&#x679C;@inout&#x5B9E;&#x53C2;&#x5F15;&#x7528;&#x7684;&#x662F;&#x4E00;&#x4E2A;&#x903B;&#x8F91;&#x5C5E;&#x6027;&#xFF0C;&#x90A3;&#x4E48;&#x8FD9;&#x4E2A;&#x5B9E;&#x53C2;&#x662F;caller-owned &#x7684;&#x53EF;&#x56DE;&#x5199;&#x7684;buffer&#x7684;&#x5730;&#x5740;&#x3002;&#x8FD9;&#x65F6;caller&#x8D1F;&#x8D23;&#x901A;&#x8FC7;&#x5728;&#x8C03;&#x7528;&#x51FD;&#x6570;&#x4E4B;&#x524D;&#x5B58;&#x50A8;&#x5C5E;&#x6027;getter&#x7684;&#x7ED3;&#x679C;&#x6765;&#x521D;&#x59CB;&#x5316;buffer&#xFF0C;&#x5E76;&#x5728;return&#x65F6;&#x901A;&#x8FC7;&#x4ECE;buffer load
-&#x5E76;&#x7528;&#x6700;&#x7EC8;&#x503C;&#x8C03;&#x7528;setter&#x6765;&#x5199;&#x56DE;&#x5C5E;&#x6027;&#x3002;</p>
-<p>/// FYI&#xFF1A; fragile physical &#x53D8;&#x91CF;
-///   In-Out &#x53C2;&#x6570;&#x4F20;&#x9012;&#x6709;&#x4E24;&#x79CD;&#x65B9;&#x5F0F;&#xFF1A;
-///     copy-in copy-out &#x548C; call-by-referernce
-///     &#x5176;&#x4E2D;&#x540E;&#x8005;&#x4E3A;&#x4F18;&#x5316;&#xFF0C;&#x53EF;&#x7701;&#x7565;copy&#x8FC7;&#x7A0B;
-/// ref&#xFF1A; <a href="https://docs.swift.org/swift-book/ReferenceManual/Declarations.html" target="_blank">https://docs.swift.org/swift-book/ReferenceManual/Declarations.html</a></p>
-<p>Swift&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+&#x5982;&#x679C;@inout&#x5B9E;&#x53C2;&#x5F15;&#x7528;&#x4E00;&#x4E2A;fragile physical&#x53D8;&#x91CF;&#xFF0C;&#x90A3;&#x4E48;&#x8FD9;&#x4E2A;&#x5B9E;&#x53C2;&#x662F;&#x8FD9;&#x4E2A;&#x53D8;&#x91CF;&#x7684;&#x5730;&#x5740;&#x3002;
+&#x5982;&#x679C;@inout&#x5B9E;&#x53C2;&#x5F15;&#x7528;&#x7684;&#x662F;&#x4E00;&#x4E2A;&#x903B;&#x8F91;&#x5C5E;&#x6027;&#xFF0C;&#x90A3;&#x4E48;&#x8FD9;&#x4E2A;&#x5B9E;&#x53C2;&#x662F;caller-owned &#x7684;&#x53EF;&#x56DE;&#x5199;&#x7684;buffer&#x7684;&#x5730;&#x5740;&#x3002;&#x8FD9;&#x65F6;caller&#x8D1F;&#x8D23;&#x5728;&#x8C03;&#x7528;&#x51FD;&#x6570;&#x4E4B;&#x524D;&#x5C5E;&#x6027;&#x7684;getter&#xFF0C;&#x5E76;&#x7528;getter&#x7684;&#x7ED3;&#x679C;&#x5199;&#x5165;&#x5E76;&#x521D;&#x59CB;&#x5316;buffer&#xFF1B;&#x5728;return&#x65F6;&#x4ECE;buffer&#x4E2D;load&#x51FA;&#x503C;&#xFF0C;&#x5E76;&#x7528;&#x6700;&#x7EC8;&#x503C;&#x8C03;&#x7528;setter&#x6765;&#x5199;&#x56DE;&#x5C5E;&#x6027;&#x3002;</p>
+<pre><code>FYI  fragile physical &#x53D8;&#x91CF;
+In-Out &#x53C2;&#x6570;&#x4F20;&#x9012;&#x6709;&#x4E24;&#x79CD;&#x65B9;&#x5F0F;&#xFF1A;
+  copy-in copy-out &#x548C; call-by-referernce
+  &#x5176;&#x4E2D;&#x540E;&#x8005;&#x4E3A;&#x4F18;&#x5316;&#xFF0C;&#x53EF;&#x7701;&#x7565;copy&#x8FC7;&#x7A0B;
+ref&#xFF1A; https://docs.swift.org/swift-book/ReferenceManual/Declarations.html
+</code></pre><p>Swift&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
 <pre><code>func inout(_ x: inout Int) {
   x = 1
 }
@@ -785,7 +787,7 @@ entry(%x : $*Int):
   return
 }
 </code></pre><h2 id="swift-method-calling-convention-conventionmethod">Swift Method Calling Convention @convention(method)</h2>
-<p>&#x5F53;&#x524D;&#xFF0C;&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x7EA6;&#x5B9A;&#x4E0E;&#x5355;&#x72EC;&#xFF08;freestanding&#xFF09;&#x53C2;&#x6570;&#x51FD;&#x6570;&#x7684;&#x8C03;&#x7528;&#x7EA6;&#x5B9A;&#x76F8;&#x540C;&#x3002;&#x65B9;&#x6CD5;&#x90FD;&#x67EF;&#x91CC;&#x5316;&#xFF08;Curried
+<p>&#x5F53;&#x524D;&#xFF0C;&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x7EA6;&#x5B9A;&#x4E0E;&#x5355;&#x4E2A;&#xFF08;freestanding&#xFF09;&#x53C2;&#x6570;&#x51FD;&#x6570;&#x7684;&#x8C03;&#x7528;&#x7EA6;&#x5B9A;&#x76F8;&#x540C;&#x3002;&#x53EF;&#x4EE5;&#x8BA4;&#x4E3A;&#x65B9;&#x6CD5;&#x90FD;&#x67EF;&#x91CC;&#x5316;&#xFF08;Curried
 &#xFF09;&#x4E86;&#xFF0C;&#x6700;&#x5916;&#x5C42;&#x7684;&#x662F;self&#x53C2;&#x6570;&#xFF0C;&#x5176;&#x4ED6;&#x65B9;&#x6CD5;&#x53C2;&#x6570;&#x5728;&#x5185;&#x5C42;&#x3002;
 &#x56E0;&#x6B64;&#xFF0C;self&#x53C2;&#x6570;&#x5728;&#x6700;&#x540E;&#x4F20;&#x9012;&#xFF1A;</p>
 <pre><code>struct Foo {
@@ -794,14 +796,14 @@ entry(%x : $*Int):
 
 sil @Foo_method_1 : $((x : Int), @inout Foo) -&gt; Int { ... }
 </code></pre><h2 id="witness-method-calling-convention-conventionwitnessmethod">Witness Method Calling Convention @convention(witness_method)</h2>
-<p>Witness&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x662F;&#x6307;WitnessTable&#x91CC;&#x7684;&#x534F;&#x8BAE;&#x65B9;&#x6CD5;&#x3002;&#x5B83;&#x4E0E;&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x7EA6;&#x5B9A;&#x76F8;&#x540C;&#xFF0C;&#x4E0D;&#x540C;&#x4E4B;&#x5904;&#x5728;&#x4E8E;&#x5B83;&#x5BF9;&#x6CDB;&#x578B;&#x7C7B;&#x578B;&#x53C2;&#x6570;&#x7684;&#x5904;&#x7406;&#x3002;&#x5BF9;&#x4E8E;non-witness&#x65B9;&#x6CD5;&#xFF0C;&#x5728;machine&#x5C42;&#x9762;&#x4F20;&#x9012;&#x7C7B;&#x578B;&#x53C2;&#x6570;&#x5143;&#x6570;&#x636E;&#x7684;&#x7EA6;&#x5B9A;&#x53EF;&#x80FD;&#x4EC5;&#x4F9D;&#x8D56;&#x4E8E;&#x51FD;&#x6570;&#x7B7E;&#x540D;&#x7684;&#x9759;&#x6001;&#x90E8;&#x5206;&#x5C31;&#x591F;&#x4E86;&#xFF0C;&#x4F46;&#x56E0;&#x4E3A;witness&#x5FC5;&#x987B;&#x652F;&#x6301;&#x5BF9;self&#x7C7B;&#x578B;&#x7684;&#x591A;&#x6001;&#x6D3E;&#x53D1;&#xFF0C;&#x56E0;&#x6B64;&#x4F20;&#x9012;&#x4E0E;Self&#x76F8;&#x5173;&#x7684;&#x5143;&#x6570;&#x636E;&#x5FC5;&#x987B;&#x4EE5;&#x5C3D;&#x53EF;&#x80FD;&#x62BD;&#x8C61;&#x7684;&#x65B9;&#x5F0F;&#x3002;</p>
+<p>Witness&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x662F;&#x6307;WitnessTable&#x91CC;&#x7684;&#x534F;&#x8BAE;&#x65B9;&#x6CD5;&#x3002;&#x5B83;&#x4E0E;&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x7EA6;&#x5B9A;&#x76F8;&#x540C;&#xFF0C;&#x4E0D;&#x540C;&#x4E4B;&#x5904;&#x5728;&#x4E8E;&#x5B83;&#x5BF9;&#x6CDB;&#x578B;&#x7C7B;&#x578B;&#x53C2;&#x6570;&#x7684;&#x5904;&#x7406;&#x3002;&#x5BF9;&#x4E8E;non-witness&#x65B9;&#x6CD5;&#xFF0C;&#x5728;machine&#x5C42;&#x9762;&#x5173;&#x4E8E;&#x4F20;&#x9012;&#x7C7B;&#x578B;&#x5F62;&#x53C2;&#x7684;&#x5143;&#x6570;&#x636E;&#x7684;&#x7EA6;&#x5B9A;&#x53EF;&#x80FD;&#x4EC5;&#x4F9D;&#x8D56;&#x4E8E;&#x51FD;&#x6570;&#x7B7E;&#x540D;&#x7684;&#x9759;&#x6001;&#x90E8;&#x5206;&#xFF0C;&#x4F46;&#x56E0;&#x4E3A;witness&#x5FC5;&#x987B;&#x652F;&#x6301;&#x5BF9;self&#x7C7B;&#x578B;&#x7684;&#x591A;&#x6001;&#x6D3E;&#x53D1;&#xFF0C;&#x56E0;&#x6B64;&#x4F20;&#x9012;&#x4E0E;Self&#x76F8;&#x5173;&#x7684;&#x5143;&#x6570;&#x636E;&#x5FC5;&#x987B;&#x4EE5;&#x5C3D;&#x53EF;&#x80FD;&#x62BD;&#x8C61;&#x7684;&#x65B9;&#x5F0F;&#x3002;</p>
 <h2 id="c-calling-convention-conventionc">C Calling Convention @convention(c)</h2>
 <p>&#x5728;Swift&#x7684;C&#x6A21;&#x5757;&#x5BFC;&#x5165;&#x5668;&#x4E2D;&#xFF0C;C&#x7C7B;&#x578B;&#x603B;&#x662F;&#x88AB;SIL&#x6620;&#x5C04;&#x5230;Swift&#x7684;trivial&#x7C7B;&#x578B;&#x3002; SIL&#x4E0D;&#x5173;&#x5FC3;&#x5E73;&#x53F0;ABI&#x5173;&#x4E8E;indirect return&#xFF0C;&#x5BC4;&#x5B58;&#x5668;&#x4E0E;&#x5806;&#x6808;&#x4F20;&#x9012;&#x7B49;&#x8981;&#x6C42;&#x3002;SIL&#x4E2D;&#x7684;C&#x51FD;&#x6570;&#x7684;&#x4F20;&#x9012;&#x548C;return&#x603B;&#x662F;&#x4F20;&#x503C;&#xFF0C;&#x800C;&#x5FFD;&#x7565;&#x5E73;&#x53F0;&#x7684;&#x8C03;&#x7528;&#x7EA6;&#x5B9A;&#x3002;</p>
 <p>&#x56E0;&#x6B64;&#x76EE;&#x524D;SIL&#x548C;Swift&#x4E0D;&#x80FD;&#x8C03;&#x7528;&#x5177;&#x6709;&#x4E0D;&#x5B9A;&#x957F;&#x53C2;&#x6570;&#x7684;C&#x51FD;&#x6570;&#x3002;</p>
 <h2 id="objective-c-calling-convention-conventionobjcmethod">Objective-C Calling Convention @convention(objc_method)</h2>
 <h3 id="reference-counts">Reference Counts</h3>
-<p>Objective-C&#x65B9;&#x6CD5;&#x4F7F;&#x7528;&#x4E0E;ARC Objective-C&#x76F8;&#x540C;&#x7684;&#x53C2;&#x6570;&#x548C;&#x8FD4;&#x56DE;&#x503C;ownership&#x89C4;&#x5219;&#x3002;Selector&#x4EE5;&#x53CA;Objective-C&#x5B9A;&#x4E49;&#x7684;ns_consumed&#xFF0C;ns_returns_retained&#x7B49;&#x5C5E;&#x6027;&#x4E5F;&#x90FD;&#x652F;&#x6301;&#x3002;</p>
-<p>&#x5BF9;@convention(block)&#x503C;&#x8FDB;&#x884C;apply&#x8C03;&#x7528;&#xFF0C;&#x5E76;&#x4E0D;&#x4F1A;consume&#x8FD9;&#x4E2A;block&#x3002;</p>
+<p>Objective-C&#x65B9;&#x6CD5;&#x4F7F;&#x7528;&#x4E0E;ARC Objective-C&#x76F8;&#x540C;&#x7684;&#x5B9E;&#x53C2;&#x548C;&#x8FD4;&#x56DE;&#x503C;ownership&#x89C4;&#x5219;&#x3002;Selector&#x4EE5;&#x53CA;Objective-C&#x5B9A;&#x4E49;&#x7684;ns_consumed&#xFF0C;ns_returns_retained&#x7B49;&#x5C5E;&#x6027;&#x4E5F;&#x90FD;&#x652F;&#x6301;&#x3002;</p>
+<p>apply @convention(block) &#x7684;&#x503C;&#xFF0C;&#x5E76;&#x4E0D;&#x4F1A;consume&#x8FD9;&#x4E2A;block&#x3002;</p>
 <h3 id="method-currying">Method Currying</h3>
 <p>OC&#x65B9;&#x6CD5;&#x7684;&#x53C2;&#x6570;&#x5728;SIL&#x91CC;&#x4E5F;&#x4F1A;&#x67EF;&#x91CC;&#x5316;&#xFF0C;&#x5305;&#x62EC;self&#x53C2;&#x6570;&#xFF0C;&#x5C31;&#x50CF;&#x539F;&#x751F;Swift&#x65B9;&#x6CD5;&#x4E00;&#x6837;&#x3002;</p>
 <pre><code>@objc class NSString {
@@ -852,7 +854,7 @@ sil @NSString_stringByPaddingToLength_withString_startingAtIndex \
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"0x7 Calling Convention","level":"1.9","depth":1,"next":{"title":"[0x71 Swift Calling Convention @convention(swift)]","level":"1.9.1","depth":2,"ref":"","articles":[]},"previous":{"title":"0x6 Undefined Behavior","level":"1.8","depth":1,"path":"src/UndefinedBehavior.md","ref":"src/UndefinedBehavior.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"license":"cc by nc sa 4.0","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Minhao Hsu","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"SIL中文手册","language":"zh","structure.glossary":"GLOSSARY.md","gitbook":"*","description":"Swift中间IR语言中文手册"},"file":{"path":"src/CallConvention.md","mtime":"2020-09-16T03:53:26.870Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-16T05:23:55.145Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"0x7 Calling Convention","level":"1.9","depth":1,"next":{"title":"[0x71 Swift Calling Convention @convention(swift)]","level":"1.9.1","depth":2,"ref":"","articles":[]},"previous":{"title":"0x6 Undefined Behavior","level":"1.8","depth":1,"path":"src/UndefinedBehavior.md","ref":"src/UndefinedBehavior.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"license":"cc by nc sa 4.0","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Minhao Hsu","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"SIL中文手册","language":"zh","structure.glossary":"GLOSSARY.md","gitbook":"*","description":"Swift中间IR语言中文手册"},"file":{"path":"src/CallConvention.md","mtime":"2020-11-03T09:01:22.831Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-11-04T03:19:37.460Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

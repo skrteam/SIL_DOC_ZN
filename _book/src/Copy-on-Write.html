@@ -659,6 +659,56 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="0xa-copy-on-write-representation">0xA Copy-on-Write Representation</h1>
+<p>Copy-on-Write (COW)&#x6570;&#x636E;&#x7ED3;&#x6784;&#x662F;&#x901A;&#x8FC7;&#x5BF9;&#x8C61;&#x5F15;&#x7528;&#x6765;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x5728;&#x6570;&#x636E;&#x4FEE;&#x6539;&#x65F6;copy&#x4E00;&#x4EFD;&#x6570;&#x636E;&#xFF0C;&#x5E76;&#x5EFA;&#x7ACB;&#x65B0;&#x7684;&#x5F15;&#x7528;&#x3002;</p>
+<p>SIL&#x4E2D;&#x5178;&#x578B;&#x7684;COW&#x4FEE;&#x6539;&#x64CD;&#x4F5C;&#x5E8F;&#x5217;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code> (%uniq, %buffer) = begin_cow_mutation %immutable_buffer : $BufferClass
+  cond_br %uniq, bb_uniq, bb_not_unique
+bb_uniq:
+  br bb_mutate(%buffer : $BufferClass)
+bb_not_unique:
+  %copied_buffer = apply %copy_buffer_function(%buffer) : ...
+  br bb_mutate(%copied_buffer : $BufferClass)
+bb_mutate(%mutable_buffer : $BufferClass):
+  %field = ref_element_addr %mutable_buffer : $BufferClass, #BufferClass.Field
+  store %value to %field : $ValueType
+  %new_immutable_buffer = end_cow_mutation %buffer : $BufferClass
+</code></pre><p>&#x4ECE;COW&#x6570;&#x636E;&#x7ED3;&#x6784;load&#x64CD;&#x4F5C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>%field1 = ref_element_addr [immutable] %immutable_buffer : $BufferClass, #BufferClass.Field
+%value1 = load %field1 : $*FieldType
+...
+%field2 = ref_element_addr [immutable] %immutable_buffer : $BufferClass, #BufferClass.Field
+%value2 = load %field2 : $*FieldType
+</code></pre><p>immutable&#x5C5E;&#x6027;&#x610F;&#x5473;&#x7740;&#x7528;ref_element_addr&#x548C;ref_tail_addr&#x6307;&#x4EE4;loading&#x503C;&#xFF0C;&#x5982;&#x679C;&#x6307;&#x4EE4;&#x7684;&#x64CD;&#x4F5C;&#x6570;&#x76F8;&#x540C;&#xFF0C;&#x90A3;&#x4E48;&#x53EF;&#x4EE5;&#x8BA4;&#x4E3A;&#x662F;&#x7B49;&#x6548;&#x7684;&#x3002;&#x6362;&#x53E5;&#x8BDD;&#x8BF4;&#xFF0C;&#x53EA;&#x8981;&#x4F5C;&#x4E3A;&#x64CD;&#x4F5C;&#x6570;&#x7684;buffer&#x5F15;&#x7528;&#x76F8;&#x540C;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x4FDD;&#x8BC1;buffer&#x7684;&#x5C5E;&#x6027;&#x5728;&#x4E24;&#x4E2A;ref_element / tail_addr [immutable]&#x4E4B;&#x95F4;&#x4E0D;&#x4F1A;&#x53D1;&#x751F;&#x4FEE;&#x6539;&#x3002;&#x751A;&#x81F3;&#x8BE5;buffer&#x5982;&#x679C;&#x9003;&#x9038;&#xFF08;escape&#xFF09;&#x5230;&#x5176;&#x4ED6;&#x672A;&#x77E5;&#x51FD;&#x6570;&#xFF0C;&#x4EE5;&#x4E0A;&#x4E5F;&#x6210;&#x7ACB;&#x3002;</p>
+<p>&#x5728;&#x4E0A;&#x9762;&#x7684;&#x793A;&#x4F8B;&#x4E2D;&#xFF0C;&#x56E0;&#x4E3A;&#x4E24;&#x4E2A;ref_element_addr&#x6307;&#x4EE4;&#x7684;&#x64CD;&#x4F5C;&#x6570;&#x90FD;&#x662F;&#x76F8;&#x540C;&#x7684;&#xFF05;immutable_buffer&#xFF0C;&#xFF05;value2&#x548C;&#xFF05;value1&#x76F8;&#x7B49;&#x3002;&#x4ECE;&#x6982;&#x5FF5;&#x4E0A;&#x8BB2;&#xFF0C;COW buffer&#x5BF9;&#x8C61;&#x7684;&#x5185;&#x5BB9;&#x53EF;&#x4EE5;&#x770B;&#x4F5C;&#x662F;&#x4E0E;&#x7F13;buffer&#x5F15;&#x7528;&#x76F8;&#x540C;&#x7684;&#x9759;&#x6001;&#xFF08;&#x4E0D;&#x53EF;&#x53D8;&#xFF09;SSA&#x503C;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x3002;</p>
+<p>&#x901A;&#x8FC7;begin_cow_mutation&#x548C;end_cow_mutation&#x6307;&#x4EE4;&#x53EF;&#x4EE5;&#x5C06;COW&#x503C;&#x7684;&#x751F;&#x5B58;&#x671F;&#x4E25;&#x683C;&#x5206;&#x4E3A;&#x53EF;&#x53D8;&#x548C;&#x4E0D;&#x53EF;&#x53D8;&#x533A;&#x57DF;&#xFF1A;</p>
+<pre><code>%b1 = alloc_ref $BufferClass
+// The buffer %b1 is mutable
+%b2 = end_cow_mutation %b1 : $BufferClass
+// The buffer %b2 is immutable
+(%u1, %b3) = begin_cow_mutation %b1 : $BufferClass
+// The buffer %b3 is mutable
+%b4 = end_cow_mutation %b3 : $BufferClass
+// The buffer %b4 is immutable
+...
+</code></pre><p>begin_cow_mutation&#x548C;end_cow_mutation&#x90FD;&#x4F1A;consume&#x5176;&#x64CD;&#x4F5C;&#x6570;&#xFF0C;&#x5E76;&#x628A;&#x65B0;&#x7684;buffer&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;@owned&#x503C;&#x8FDB;&#x884C;&#x8FD4;&#x56DE;&#x3002; begin_cow_mutation&#x5C06;&#x7F16;&#x8BD1;&#x4E3A;&#x552F;&#x4E00;&#x6027;&#x68C0;&#x67E5;&#x4EE3;&#x7801;&#xFF0C;&#x800C;end_cow_mutation&#x5C06;&#x7F16;&#x8BD1;&#x4E3A;no-op&#xFF08;&#x65E0;&#x64CD;&#x4F5C;&#x7A7A;&#x4EE3;&#x7801;&#xFF09;&#x3002;</p>
+<p>&#x5C3D;&#x7BA1;&#x8FD4;&#x56DE;&#x7684;buffer&#x5F15;&#x7528;&#x7684;&#x7269;&#x7406;&#x6307;&#x9488;&#x503C;&#x4E0E;&#x64CD;&#x4F5C;&#x6570;&#x76F8;&#x540C;&#xFF0C;&#x4F46;&#x5728;SIL&#x4E2D;&#x751F;&#x6210;&#x65B0;&#x7684;buffer&#x5F15;&#x7528;&#x8FD8;&#x662F;&#x5F88;&#x91CD;&#x8981;&#x7684;&#x3002;&#x5B83;&#x9632;&#x6B62;&#x4F18;&#x5316;&#x5668;&#x5C06;buffer&#x8BBF;&#x95EE;&#x4ECE;mutable&#x7684;&#x533A;&#x57DF;&#x79FB;&#x52A8;&#x5230;immutable&#x7684;&#x533A;&#x57DF;&#xFF0C;&#x53CD;&#x4E4B;&#x4EA6;&#x7136;&#x3002;</p>
+<p>&#x56E0;&#x4E3A;buffer&#x5185;&#x5BB9;&#x5728;&#x6982;&#x5FF5;&#x4E0A;&#x662F;buffer&#x5F15;&#x7528;SSA&#x503C;&#x7684;&#x4E00;&#x90E8;&#x5206;&#xFF0C;&#x6240;&#x4EE5;&#x6BCF;&#x6B21;&#x66F4;&#x6539;buffer&#x5185;&#x5BB9;&#x65F6;&#x90FD;&#x5FC5;&#x987B;&#x6709;&#x4E00;&#x4E2A;&#x65B0;&#x7684;buffer&#x5F15;&#x7528;&#x3002;</p>
+<p>&#x4E3A;&#x4E86;&#x8BF4;&#x660E;&#x8FD9;&#x4E00;&#x70B9;&#xFF0C;&#x8BA9;&#x6211;&#x4EEC;&#x770B;&#x4E00;&#x4E2A;&#x793A;&#x4F8B;&#xFF0C;&#x5176;&#x4E2D;&#x4E00;&#x4E2A;COW&#x503C;&#x5728;&#x4E00;&#x4E2A;&#x5FAA;&#x73AF;&#x4E2D;&#x88AB;&#x66F4;&#x6539;&#x3002;&#x4E0E;&#x6807;&#x91CF;SSA&#x503C;&#x4E00;&#x6837;&#xFF0C;&#x5BF9;COW buffer&#x8FDB;&#x884C;&#x66F4;&#x6539;&#x4E5F;&#x5C06;&#x5728;&#x5FAA;&#x73AF;&#x5934;&#x5757;&#x4E2D;&#x5F3A;&#x5236;&#x4F7F;&#x7528;phi&#x53C2;&#x6570;&#xFF08;&#x4E3A;&#x7B80;&#x5355;&#x8D77;&#x89C1;&#xFF0C;&#x672A;&#x663E;&#x793A;&#x7528;&#x4E8E;&#x590D;&#x5236;&#x975E;&#x552F;&#x4E00;&#x7F13;&#x51B2;&#x533A;&#x7684;&#x4EE3;&#x7801;&#xFF09;&#xFF1A;</p>
+<pre><code>Phi node 
+LLVM &#x4E2D;&#x5173;&#x4E8E;SSA&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;
+
+The &apos;phi&apos; instruction is used to implement the &#x3C6; node in the SSA graph representing the function.
+
+ref&#xFF1A; http://llvm.org/docs/LangRef.html#phi-instruction
+</code></pre><pre><code>header_block(%b_phi : $BufferClass):
+  (%u, %b_mutate) = begin_cow_mutation %b_phi : $BufferClass
+  // Store something to %b_mutate
+  %b_immutable = end_cow_mutation %b_mutate : $BufferClass
+  cond_br %loop_cond, exit_block, backedge_block
+backedge_block:
+  br header_block(b_immutable : $BufferClass)
+exit_block:
+</code></pre><p>&#x4E24;&#x6761;&#x76F8;&#x90BB;&#x7684;begin_cow_mutation&#x548C;end_cow_mutation&#x6307;&#x4EE4;&#x4E0D;&#x5FC5;&#x5728;&#x540C;&#x4E00;&#x51FD;&#x6570;&#x4E2D;&#x3002;</p>
 
                                 
                                 </section>
@@ -702,7 +752,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"0xA Copy-on-Write Representation","level":"1.12","depth":1,"next":{"title":"0xB Instruction Set","level":"1.13","depth":1,"path":"src/Instructions/index.md","ref":"src/Instructions/index.md","articles":[]},"previous":{"title":"0x9 Value Dependence","level":"1.11","depth":1,"path":"src/ValueDependence.md","ref":"src/ValueDependence.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"license":"cc by nc sa 4.0","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Minhao Hsu","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"SIL中文手册","language":"zh","structure.glossary":"GLOSSARY.md","gitbook":"*","description":"Swift中间IR语言中文手册"},"file":{"path":"src/Copy-on-Write.md","mtime":"2020-08-13T12:47:56.043Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-16T05:23:55.145Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"0xA Copy-on-Write Representation","level":"1.12","depth":1,"next":{"title":"0xB Instruction Set","level":"1.13","depth":1,"path":"src/Instructions/index.md","ref":"src/Instructions/index.md","articles":[]},"previous":{"title":"0x9 Value Dependence","level":"1.11","depth":1,"path":"src/ValueDependence.md","ref":"src/ValueDependence.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"license":"cc by nc sa 4.0","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Minhao Hsu","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"SIL中文手册","language":"zh","structure.glossary":"GLOSSARY.md","gitbook":"*","description":"Swift中间IR语言中文手册"},"file":{"path":"src/Copy-on-Write.md","mtime":"2020-11-03T13:55:16.113Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-11-04T03:19:37.460Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
